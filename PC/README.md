@@ -1,4 +1,2 @@
 # PC
-Programação Competitiva
-
-Atividades de PC
+Programação Competitiva (2018/02)
