@@ -1,2 +1,2 @@
 # APC
-atividades de APC (2018/01)
+Algoritmos e Programação de Computadores (2018/01)
