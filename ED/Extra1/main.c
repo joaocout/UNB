@@ -58,7 +58,11 @@ int main () {
     printf("o maior preco entre os produtos eh: %.2f\n", maiorpreco(sorvetes));
     printf("a posicao do produto que possui o maior preco eh: %d\n", posicaomaior(sorvetes));
     printf("o valor total de todos os produtos em estoque eh: %.2f\n", valortotal(sorvetes));
-    printf("o produto que possui o cod 120837 eh o sorvete de %s\n", qualproduto(sorvetes, 120837)->nome);
+    t_produto* b = qualproduto(sorvetes, 120837);
+    if(b==NULL)
+        printf("o codigo nao corresponde a nenhum produto na lista ou a lista nao possui nenhum produto\n");
+    else
+        printf("o produto que possui o cod 120837 eh o sorvete de %s\n", b->nome);
     remove_lista(sorvetes);
     return 0;
 }

@@ -166,9 +166,13 @@ float valortotal(t_lista* lista){
 }
 
 t_produto* qualproduto(t_lista* lista, int codigo){
+    if(lista->quantidade == 0)
+        return NULL;
     t_elemento* aux = lista->primeiro;
-    while(aux->produto->codigo != codigo){
+    while(aux->proximo != NULL){
+        if(aux->produto->codigo == codigo)
+            return aux->produto;
         aux = aux->proximo;
     }
-    return aux->produto;
+    return NULL;
 }
