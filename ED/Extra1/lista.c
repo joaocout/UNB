@@ -117,6 +117,7 @@ float menorpreco(t_lista* lista){
         else if(aux->produto->preco < min)
             min = aux->produto->preco;
         aux = aux->proximo;
+        count++;
     }
     return min;
 }
@@ -131,6 +132,7 @@ float maiorpreco(t_lista* lista){
         else if(aux->produto->preco > max)
             max = aux->produto->preco;
         aux = aux->proximo;
+        count++;
     }
     return max;
 }

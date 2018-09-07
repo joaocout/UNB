@@ -12,12 +12,12 @@ Atividade Extra 1 - Estrutura de Dados - UnB;
 int main () {
     t_lista* sorvetes = aloca_lista();
     int a;
-    a = inserir(0, 92837, "morango", 5.00, 100, sorvetes);
+    a = inserir(0, 92837, "morango", 7.00, 100, sorvetes);
     if(a)
         printf("erro ao inserir morango\n");
     else
         printf("morango inserido\n");
-    a = inserir(1, 12983, "chocolate", 4.00, 200, sorvetes);
+    a = inserir(1, 12983, "chocolate", 10.00, 200, sorvetes);
     if(a)
         printf("erro ao inserir chocolate\n");
     else
