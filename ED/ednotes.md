@@ -1,5 +1,0 @@
-#### CRIAÇÃO DO ARQUIVO TIPO o(objeto) ####
-		*gcc -g -c lista.c*
-
-#### COMPILAR INCLUINDO UM ARQUIVO .h(header) e .o(obejto) ####
-		*gcc -o main main.c lista.o*
