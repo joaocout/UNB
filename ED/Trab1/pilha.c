@@ -34,6 +34,7 @@ void empilha(tipo_pilha* pilha, char* dados){
 }
 
 char* desempilha(tipo_pilha* pilha){
+	pilha->quantidade--;
 	tipo_elemento* aux = pilha->topo;
 	pilha->topo = aux->proximo;
 	char* retorno = aux->dados;
