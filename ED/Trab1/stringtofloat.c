@@ -3,7 +3,11 @@
 #include <string.h>
 
 float stringtofloat(char* string){
-	int comvirgula=0, posvirgula;
+	int comvirgula=0, posvirgula, negativo=0;
+	if(string[0]=='-'){
+		negativo = 1;
+		string[0] = '0';	
+	}
 	for(int i=0; i<strlen(string); i++){
 		if(string[i]=='.' || string[i]==','){
 			comvirgula=1;
@@ -17,20 +21,19 @@ float a = 0;
 			a += (string[i]-'0') * pow(10, strlen(string)-i-1);		
 	}
 	else{
-		int j=0;
-		for(int i=0; i<strlen(string); i++){
-			if(string[i]==',' || string[i]=='.')
-				i++;
-			a += (string[i]-'0') * pow(10, posvirgula-j-1);
-			j++;
-		}
+		for(int i=0; i<posvirgula; i++)
+			a += (string[i]-'0') * pow(10, posvirgula-1-i);
+		for(int i= posvirgula+1; i<strlen(string); i++)
+			a += (string[i]-'0') * pow(10, posvirgula-i);
 	}
-	return a;
+	if(negativo) return -a;
+	else return a;
 }
 
 
 int main () {
-	char a[10];
+	char a[100];
 	scanf("%s", a);
-	printf("%f\n", stringtofloat(a)+10);
+	printf("%lf\n", stringtofloat(a));
+	return 0;
 }
