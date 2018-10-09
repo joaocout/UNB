@@ -2,14 +2,40 @@
 #include "pilha.h"
 
 int main () {
-    tipo_pilha* pilha = aloca_pilha();
-    printf("qtd de elementos = %d\n", pilha->quantidade);
-    empilha(pilha, "23242");
-    printf("qtd de elementos = %d\n", pilha->quantidade);
-    empilha(pilha, "akjahsd");
-    printf("qtd de elementos = %d\n", pilha->quantidade);
-    empilha(pilha, "8134");
-    printf("qtd de elementos = %d\n", pilha->quantidade);
-    remove_pilha(pilha);
-    return 0;
+	tipo_pilha* pilha = aloca_pilha();
+	
+	empilha(pilha, "127938");
+	empilha(pilha, "1ASdas");
+	empilha(pilha, "asdas");
+	empilha(pilha, "Asdfa8");
+	empilha(pilha, "1wsdas8");
+	printf("qtd = %d | topo = %s\n", pilha->quantidade, pilha->topo->dados);
+	print_pilha(pilha);
+	printf("\n");
+
+	desempilha(pilha);
+	desempilha(pilha);
+	printf("qtd = %d | topo = %s\n", pilha->quantidade, pilha->topo->dados);
+	print_pilha(pilha);
+	printf("\n");
+
+	desempilha(pilha);
+	desempilha(pilha);
+	printf("qtd = %d | topo = %s\n", pilha->quantidade, pilha->topo->dados);
+	print_pilha(pilha);
+	printf("\n");
+
+	desempilha(pilha);
+	printf("qtd = %d |\n", pilha->quantidade);
+	printf("\n");
+
+	empilha(pilha, "a");
+	empilha(pilha, "olasldjh");
+	printf("qtd = %d | topo = %s\n", pilha->quantidade, pilha->topo->dados);
+	print_pilha(pilha);
+	printf("\n");	
+
+
+	remove_pilha(pilha);
+	return 0;
 }

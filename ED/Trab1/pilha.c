@@ -1,4 +1,5 @@
 #include "pilha.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -12,6 +13,7 @@ tipo_pilha* aloca_pilha (){
 	return pilha;
 }
 
+
 tipo_elemento* aloca_elemento(char* dados){
 	tipo_elemento* elemento = (tipo_elemento*)malloc(sizeof(tipo_elemento));
 	elemento->dados = (char*) malloc(sizeof(char)*(strlen(dados)+1));
@@ -20,10 +22,11 @@ tipo_elemento* aloca_elemento(char* dados){
 	return elemento;
 }
 
+
 void empilha(tipo_pilha* pilha, char* dados){
-	if(pilha->topo==NULL){
-		 pilha->topo = aloca_elemento(dados);
-		 pilha->quantidade++;
+	if(pilha->topo == NULL){
+		pilha->topo = aloca_elemento(dados);
+		pilha->quantidade++;
 	}
 	else{
 		pilha->quantidade++;
@@ -33,15 +36,15 @@ void empilha(tipo_pilha* pilha, char* dados){
 	}
 }
 
-char* desempilha(tipo_pilha* pilha){
+
+void desempilha(tipo_pilha* pilha){
 	pilha->quantidade--;
 	tipo_elemento* aux = pilha->topo;
 	pilha->topo = aux->proximo;
-	char* retorno = aux->dados;
 	free(aux->dados);
 	free(aux);
-	return retorno; 
 }
+
 
 void remove_pilha(tipo_pilha* pilha){
 	tipo_elemento* aux = pilha->topo;
@@ -52,4 +55,26 @@ void remove_pilha(tipo_pilha* pilha){
 		aux = auxx;
 	}
 	free(pilha);
+}
+
+
+/*printa os elementos do stack, obedecendo as restricoes de acesso aos elementos*/
+void print_pilha(tipo_pilha* pilha){
+	tipo_pilha* aux = aloca_pilha();
+	while(pilha->topo!=NULL){
+		printf("%d. %s\n", pilha->quantidade, pilha->topo->dados);
+		char* a = (char*) malloc(sizeof(char) * (strlen(pilha->topo->dados)+1));
+		strcpy(a, pilha->topo->dados);
+		desempilha(pilha);
+		empilha(aux, a);
+		free(a);
+	}
+	while(aux->topo!=NULL){
+		char* a = (char*) malloc(sizeof(char) * (strlen(aux->topo->dados)+1));
+		strcpy(a, aux->topo->dados);
+		desempilha(aux);
+		empilha(pilha, a);
+		free(a);
+	}
+	free(aux);
 }
