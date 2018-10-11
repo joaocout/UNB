@@ -2,7 +2,7 @@
 #include <math.h>
 #include <string.h>
 
-float stringtofloat(char* string){
+double stringtofloat(char* string){
 	int comvirgula=0, posvirgula, negativo=0;
 	if(string[0]=='-'){
 		negativo = 1;
@@ -12,28 +12,32 @@ float stringtofloat(char* string){
 		if(string[i]=='.' || string[i]==','){
 			comvirgula=1;
 			posvirgula=i;
-			i=strlen(string);
 		}
 	}
-float a = 0;
+double a = 0;
 	if(!comvirgula){
 		for(int i=0; i<strlen(string); i++)
 			a += (string[i]-'0') * pow(10, strlen(string)-i-1);		
 	}
 	else{
-		for(int i=0; i<posvirgula; i++)
-			a += (string[i]-'0') * pow(10, posvirgula-1-i);
-		for(int i= posvirgula+1; i<strlen(string); i++)
-			a += (string[i]-'0') * pow(10, posvirgula-i);
+		for(int i=0; i<posvirgula; i++){
+			double temp = string[i] - '0';
+			a += temp * pow(10, posvirgula-1-i);
+		}
+		for(int i= posvirgula+1; i<strlen(string); i++){
+			double temp = string[i] - '0';
+			a += temp * pow(10, posvirgula-i);
+		}
 	}
-	if(negativo) return -a;
-	else return a;
+	float re = a;
+	if(negativo) return -re;
+	else return re;
 }
 
 
 int main () {
 	char a[100];
 	scanf("%s", a);
-	printf("%lf\n", stringtofloat(a));
+	printf("%f\n", stringtofloat(a));
 	return 0;
 }
