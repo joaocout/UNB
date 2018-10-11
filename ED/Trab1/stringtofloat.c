@@ -29,15 +29,14 @@ double a = 0;
 			a += temp * pow(10, posvirgula-i);
 		}
 	}
-	float re = a;
-	if(negativo) return -re;
-	else return re;
+	if(negativo) return a;
+	else return a;
 }
 
 
 int main () {
 	char a[100];
 	scanf("%s", a);
-	printf("%f\n", stringtofloat(a));
+	printf("em float: %f\n", stringtofloat(a)); 
 	return 0;
 }
