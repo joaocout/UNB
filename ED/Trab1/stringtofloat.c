@@ -2,6 +2,10 @@
 #include <math.h>
 #include <string.h>
 
+
+/*finalizado*/
+
+
 double stringtofloat(char* string){
 	int comvirgula=0, posvirgula, negativo=0;
 	if(string[0]=='-'){
@@ -29,7 +33,7 @@ double a = 0;
 			a += temp * pow(10, posvirgula-i);
 		}
 	}
-	if(negativo) return a;
+	if(negativo) return -a;
 	else return a;
 }
 
