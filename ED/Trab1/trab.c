@@ -38,8 +38,9 @@ void calculadora(){
             double y = stringtodouble(pilha->topo->dados);
             desempilha(pilha);
             double result = x+y;
-            doubletostring(result, a);
-            empilha(pilha, a);
+            char aux[100] = "\0";
+            doubletostring(result, aux);
+            empilha(pilha, aux);
         }
         else if(strcmp("-", a)==0 && pilha->quantidade>=2){
             double x = stringtodouble(pilha->topo->dados);
@@ -47,8 +48,9 @@ void calculadora(){
             double y = stringtodouble(pilha->topo->dados);
             desempilha(pilha);
             double result = x-y;
-            doubletostring(result, a);
-            empilha(pilha, a);
+            char aux[100] = "\0";
+            doubletostring(result, aux);
+            empilha(pilha, aux);
         }
         else if(strcmp("*", a)==0 && pilha->quantidade>=2){
             double x = stringtodouble(pilha->topo->dados);
@@ -56,8 +58,9 @@ void calculadora(){
             double y = stringtodouble(pilha->topo->dados);
             desempilha(pilha);
             double result = x*y;
-            doubletostring(result, a);
-            empilha(pilha, a);
+            char aux[100] = "\0";
+            doubletostring(result, aux);
+            empilha(pilha, aux);
         }
         else if(strcmp("/", a)==0 && pilha->quantidade>=2){
             double x = stringtodouble(pilha->topo->dados);
@@ -65,8 +68,9 @@ void calculadora(){
             double y = stringtodouble(pilha->topo->dados);
             desempilha(pilha);
             double result = x/y;
-            doubletostring(result, a);
-            empilha(pilha, a);
+            char aux[100] = "\0";
+            doubletostring(result, aux);
+            empilha(pilha, aux);
         }
         else if((a[0]=='/'||a[0]=='*'||a[0]=='-'||a[0]=='+') && pilha->quantidade<2) erro = 1;
         else empilha(pilha, a);

@@ -1,13 +1,10 @@
 #include <stdio.h>
+#include <string.h>
 #include "funcoes.h"
 #include "pilha.h"
 
 int main () {
-    double x;
-    scanf("%lf", &x);
-    char b[100];
-    doubletostring(x, b);
+    char a[100] = "\0";
+    printf("%s\n", a);
     return 0;
-
-
 }
