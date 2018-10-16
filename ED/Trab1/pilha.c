@@ -62,7 +62,6 @@ void remove_pilha(tipo_pilha* pilha){
 void print_pilha(tipo_pilha* pilha){
 	tipo_pilha* aux = aloca_pilha();
 	while(pilha->topo!=NULL){
-		printf("%d. %s\n", pilha->quantidade, pilha->topo->dados);
 		char* a = (char*) malloc(sizeof(char) * (strlen(pilha->topo->dados)+1));
 		strcpy(a, pilha->topo->dados);
 		desempilha(pilha);
@@ -70,6 +69,7 @@ void print_pilha(tipo_pilha* pilha){
 		free(a);
 	}
 	while(aux->topo!=NULL){
+		printf("%d. %s\n", aux->quantidade, aux->topo->dados);
 		char* a = (char*) malloc(sizeof(char) * (strlen(aux->topo->dados)+1));
 		strcpy(a, aux->topo->dados);
 		desempilha(aux);

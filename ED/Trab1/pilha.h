@@ -31,6 +31,7 @@ void empilha(tipo_pilha* pilha, char* dados);
 void desempilha(tipo_pilha* pilha);
 
 /*printa tudo que ha na pilha, obedecendo as restricoes de acesso aos elementos*/
+/*com o topo mais abaixo e a base mais acima, como esta na especificacao*/
 void print_pilha(tipo_pilha* pilha);
 
 #endif
