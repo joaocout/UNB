@@ -11,15 +11,15 @@ void expressao();
 
 
 void calculadora(){
-    int exit = 0;
+    int sair = 0;
     char a[100];
     int erro = 0;
     tipo_pilha* pilha = aloca_pilha();
-    while(!exit){
+    while(!sair){
         
         system("clear");
         printf("MODO CALCULADORA\n");
-        printf("Digite 'exit' para retornar ao menu\n");
+        printf("Digite 'sair' para retornar ao menu\n\n");
         if(erro){
             printf("----Número de operandos insuficiente----\n\n");
             erro=0;
@@ -28,9 +28,9 @@ void calculadora(){
         else print_pilha(pilha);
         
         printf("-> ");
-        scanf("%s", a);
+        scanf(" %s", a);
         
-        if(strcmp("exit", a)==0) exit=1;
+        if(strcmp("sair", a)==0) sair=1;
 
         else if(strcmp("+", a)==0 && pilha->quantidade>=2){
             double x = stringtodouble(pilha->topo->dados);
@@ -135,13 +135,60 @@ void calculadora(){
         else if((!strcmp("+!", a) || !strcmp("-!", a) || !strcmp("*!", a) || !strcmp("/!", a)) && pilha->quantidade < 2) erro = 1;        
         else empilha(pilha, a);
     }
-    if(exit==1){
+    if(sair==1){
         remove_pilha(pilha);
         menu();
     }
 }
 void expressao(){
-    system("clear");
+    int valida=2;
+    int sair = 0;
+    char a[100] = "\0";
+    while(!sair){
+        system("clear");
+        printf("MODO RESOLUÇÃO DE EXPRESSÃO\n");
+        printf("Digite 'sair' para retornar ao menu\n\n");
+        if(valida==0) printf("----Expressão inválida----\n\n");
+        else if(valida==1) printf("----Expressão válida----\n\n");
+        valida=1;
+        printf("Informe uma expressão na forma infixa:\n");
+        printf("-> ");
+        scanf(" %[^\n]", a);
+        if(!strcmp("sair", a)) sair = 1;
+        else{
+            tipo_pilha* validar = aloca_pilha();
+            for(int i=0; i<strlen(a) && valida; i++){
+                if(a[i]=='(' || a[i]=='[' || a[i]=='{'){
+                    char aux[2] = "\0";
+                    aux[0] = a[i];
+                    aux[1] = '\0';
+                    empilha(validar, aux);
+                }
+                else if(a[i]==')' || a[i]==']' || a[i]=='}'){
+                    if(validar->quantidade==0) valida=0;
+                    else if(a[i]==')'){
+                        if(!strcmp("(", validar->topo->dados)) desempilha(validar);
+                        else valida=0;
+
+                    }
+                    else if(a[i]=='['){
+                        if(!strcmp("]", validar->topo->dados)) desempilha(validar);
+                        else valida=0;
+                    }
+                    else if(a[i]=='{'){
+                        if(!strcmp("}", validar->topo->dados)) desempilha(validar);
+                        else valida=0;
+                    }
+                }
+            }
+            if(validar->quantidade > 0) valida=0;
+            remove_pilha(validar);
+        }
+    }
+    if(sair){
+            menu();
+    }
+    
 }
 
 void menu() {
@@ -150,7 +197,7 @@ void menu() {
     while(a!=1 && a!=2 && a!=3){
         system("clear");
         printf("[1] - Modo Calculadora\n");
-        printf("[2] - Modo Expressão\n");
+        printf("[2] - Modo Resolução de Expressão\n");
         printf("[3] - Sair\n");
         if(invalido) printf("\n----Opção inválida----\n");
         printf("\n");
