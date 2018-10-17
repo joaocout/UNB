@@ -72,7 +72,67 @@ void calculadora(){
             doubletostring(result, aux);
             empilha(pilha, aux);
         }
-        else if((a[0]=='/'||a[0]=='*'||a[0]=='-'||a[0]=='+') && pilha->quantidade<2) erro = 1;
+        else if(strcmp("+!", a)==0 && pilha->quantidade>=2){
+            while(pilha->quantidade > 1){
+                double x = stringtodouble(pilha->topo->dados);
+                desempilha(pilha);
+                double y = stringtodouble(pilha->topo->dados);
+                desempilha(pilha);
+                double result = x+y;
+                char aux[100] = "\0";
+                doubletostring(result, aux);
+                empilha(pilha, aux);
+            }
+        }
+        else if(strcmp("-!", a)==0 && pilha->quantidade>=2){
+            while(pilha->quantidade > 1){
+                double x = stringtodouble(pilha->topo->dados);
+                desempilha(pilha);
+                double y = stringtodouble(pilha->topo->dados);
+                desempilha(pilha);
+                double result = x-y;
+                char aux[100] = "\0";
+                doubletostring(result, aux);
+                empilha(pilha, aux);
+            }
+        }
+        else if(strcmp("*!", a)==0 && pilha->quantidade>=2){
+            while(pilha->quantidade > 1){
+                double x = stringtodouble(pilha->topo->dados);
+                desempilha(pilha);
+                double y = stringtodouble(pilha->topo->dados);
+                desempilha(pilha);
+                double result = x*y;
+                char aux[100] = "\0";
+                doubletostring(result, aux);
+                empilha(pilha, aux);
+            }
+        }
+        else if(strcmp("/!", a)==0 && pilha->quantidade>=2){
+            while(pilha->quantidade > 1){
+                double x = stringtodouble(pilha->topo->dados);
+                desempilha(pilha);
+                double y = stringtodouble(pilha->topo->dados);
+                desempilha(pilha);
+                double result = x/y;
+                char aux[100] = "\0";
+                doubletostring(result, aux);
+                empilha(pilha, aux);
+            }
+        }
+        else if(strcmp("c", a)==0 && pilha->quantidade>=2){
+            int i = stringtodouble(pilha->topo->dados);
+            desempilha(pilha);
+            char aux[100] = "\0";
+            strcpy(aux, pilha->topo->dados);
+            desempilha(pilha);
+            while(i){
+                empilha(pilha, aux);
+                i--;
+            }
+        }
+        else if((!strcmp("+", a) || !strcmp("-", a) || !strcmp("*", a) || !strcmp("/", a) || !strcmp("c", a)) && pilha->quantidade < 2) erro = 1;
+        else if((!strcmp("+!", a) || !strcmp("-!", a) || !strcmp("*!", a) || !strcmp("/!", a)) && pilha->quantidade < 2) erro = 1;        
         else empilha(pilha, a);
     }
     if(exit==1){

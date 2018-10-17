@@ -72,9 +72,12 @@ void doubletostring (double num, char* string){
         if(num>0 && num<1) entrezeroeum=1;
         
         inum = num;
-        while(num-inum>=0.00001){
+        
+        int k = 0;
+        while(num-inum>=0.00001 && k<4){
             num=num*10;
             inum=num;
+            k++;
         }
         i=0;
         do{/*string gravada sem virgula*/
