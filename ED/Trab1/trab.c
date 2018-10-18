@@ -10,6 +10,8 @@ void calculadora();
 void expressao();
 
 
+
+
 void calculadora(){
     int sair = 0;
     char a[100];
@@ -140,6 +142,7 @@ void calculadora(){
         menu();
     }
 }
+
 void expressao(){
 
     int valida=2;
@@ -156,7 +159,9 @@ void expressao(){
             printf("----Expressão válida----\n");
             printf("Forma posfixa: %s\n\n", pos);    
         }
-        strcpy(pos, "\0");
+        
+        for(int i=0; i<100; i++) pos[i] = '\0';
+
         valida=1;
         printf("Informe uma expressão na forma infixa:\n");
         printf("-> ");
