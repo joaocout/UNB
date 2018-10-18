@@ -141,15 +141,22 @@ void calculadora(){
     }
 }
 void expressao(){
+
     int valida=2;
     int sair = 0;
     char a[100] = "\0";
+    char pos[100] = "\0";
+
     while(!sair){
         system("clear");
         printf("MODO RESOLUÇÃO DE EXPRESSÃO\n");
         printf("Digite 'sair' para retornar ao menu\n\n");
         if(valida==0) printf("----Expressão inválida----\n\n");
-        else if(valida==1) printf("----Expressão válida----\n\n");
+        else if(valida==1){
+            printf("----Expressão válida----\n");
+            printf("Forma posfixa: %s\n\n", pos);    
+        }
+        strcpy(pos, "\0");
         valida=1;
         printf("Informe uma expressão na forma infixa:\n");
         printf("-> ");
@@ -169,7 +176,6 @@ void expressao(){
                     else if(a[i]==')'){
                         if(!strcmp("(", validar->topo->dados)) desempilha(validar);
                         else valida=0;
-
                     }
                     else if(a[i]=='['){
                         if(!strcmp("]", validar->topo->dados)) desempilha(validar);
@@ -184,11 +190,63 @@ void expressao(){
             if(validar->quantidade > 0) valida=0;
             remove_pilha(validar);
         }
+        if(valida==1){
+            tipo_pilha* posfixa = aloca_pilha();
+            int k=0;
+            for(int i=0; i<strlen(a); i++){
+                if((a[i]>='a' && a[i]<='z') || (a[i]>='A' && a[i]<='Z')){
+                    pos[k] = a[i];
+                    k++;
+                }
+                else if(a[i]=='+' || a[i]=='-'){
+                    while(posfixa->quantidade>0 && 
+                    (!strcmp("+", posfixa->topo->dados) || !strcmp("-", posfixa->topo->dados) ||
+                    !strcmp("*", posfixa->topo->dados) || !strcmp("/", posfixa->topo->dados))){
+                        pos[k] = posfixa->topo->dados[0];
+                        k++;
+                        desempilha(posfixa);
+                    }
+                    char aux[2];
+                    aux[0] = a[i];
+                    aux[1] = '\0';
+                    empilha(posfixa, aux);
+                }
+                else if(a[i]=='*' || a[i]=='/'){
+                    while(posfixa->quantidade>0 && 
+                    (!strcmp("*", posfixa->topo->dados) || !strcmp("/", posfixa->topo->dados))){
+                        pos[k] = posfixa->topo->dados[0];
+                        k++;
+                        desempilha(posfixa);
+                    }
+                    char aux[2];
+                    aux[0] = a[i];
+                    aux[1] = '\0';
+                    empilha(posfixa, aux);
+                }
+                else if(a[i]=='('){
+                    char aux[2];
+                    aux[0]=a[i];
+                    aux[1]='\0';
+                    empilha(posfixa, aux);
+                }
+                else if(a[i]==')'){
+                    while(strcmp("(", posfixa->topo->dados)!=0){
+                        pos[k] = posfixa->topo->dados[0];
+                        k++;
+                        desempilha(posfixa);
+                    }
+                    desempilha(posfixa);
+                }
+            }
+            while(posfixa->quantidade){
+                pos[k] = posfixa->topo->dados[0];
+                k++;
+                desempilha(posfixa);
+            }
+            remove_pilha(posfixa);
+        }
     }
-    if(sair){
-            menu();
-    }
-    
+    menu(); 
 }
 
 void menu() {
