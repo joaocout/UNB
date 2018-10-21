@@ -143,12 +143,20 @@ void calculadora(){
     }
 }
 
+
+
+
+
 void expressao(){
 
     int valida=2;
     int sair = 0;
-    char a[100] = "\0";
-    char pos[100] = "\0";
+
+    char a[150] = "\0";
+    char pos[150] = "\0";
+
+    int comnumeros=0;
+    double result=0;
 
     while(!sair){
         system("clear");
@@ -157,7 +165,12 @@ void expressao(){
         if(valida==0) printf("----Expressão inválida----\n\n");
         else if(valida==1){
             printf("----Expressão válida----\n");
-            printf("Forma posfixa: %s\n\n", pos);    
+            printf("Forma posfixa: %s\n", pos);
+            if(comnumeros){
+                printf("Resultado: %.3lf\n", result);
+                comnumeros=0;
+            }
+            printf("\n");
         }
         
         for(int i=0; i<100; i++) pos[i] = '\0';
@@ -168,6 +181,7 @@ void expressao(){
         scanf(" %[^\n]", a);
         if(!strcmp("sair", a)) sair = 1;
         else{
+            /*validando a expressao*/
             tipo_pilha* validar = aloca_pilha();
             for(int i=0; i<strlen(a) && valida; i++){
                 if(a[i]=='(' || a[i]=='[' || a[i]=='{'){
@@ -195,12 +209,27 @@ void expressao(){
             if(validar->quantidade > 0) valida=0;
             remove_pilha(validar);
         }
-        if(valida==1){
+        if(valida==1 && !sair){
+            /*convertendo para posfixa*/
             tipo_pilha* posfixa = aloca_pilha();
             int k=0;
+
+            comnumeros=1;
             for(int i=0; i<strlen(a); i++){
-                if((a[i]>='a' && a[i]<='z') || (a[i]>='A' && a[i]<='Z')){
+                if((a[i]>='a' && a[i]<='z') || (a[i]>='A' && a[i]<='Z')) comnumeros=0;
+            }
+
+
+            for(int i=0; i<strlen(a); i++){
+                if((a[i]>='a' && a[i]<='z') || (a[i]>='A' && a[i]<='Z' ) || (a[i]>='0' && a[i]<='9') || a[i]=='.' || a[i]==','){
                     pos[k] = a[i];
+                    k++;
+                    while((a[i+1]>='a' && a[i+1]<='z') || (a[i+1]>='A' && a[i+1]<='Z' ) || (a[i+1]>='0' && a[i+1]<='9') || a[i+1]=='.' || a[i+1]==','){
+                        i++;
+                        pos[k] = a[i];
+                        k++;
+                    }
+                    pos[k] = ' ';
                     k++;
                 }
                 else if(a[i]=='+' || a[i]=='-'){
@@ -208,6 +237,8 @@ void expressao(){
                     (!strcmp("+", posfixa->topo->dados) || !strcmp("-", posfixa->topo->dados) ||
                     !strcmp("*", posfixa->topo->dados) || !strcmp("/", posfixa->topo->dados))){
                         pos[k] = posfixa->topo->dados[0];
+                        k++;
+                        pos[k] = ' ';
                         k++;
                         desempilha(posfixa);
                     }
@@ -221,6 +252,8 @@ void expressao(){
                     (!strcmp("*", posfixa->topo->dados) || !strcmp("/", posfixa->topo->dados))){
                         pos[k] = posfixa->topo->dados[0];
                         k++;
+                        pos[k] = ' ';
+                        k++;
                         desempilha(posfixa);
                     }
                     char aux[2];
@@ -228,7 +261,7 @@ void expressao(){
                     aux[1] = '\0';
                     empilha(posfixa, aux);
                 }
-                else if(a[i]=='('){
+                else if(a[i]=='(' || a[i]=='[' || a[i]=='{'){
                     char aux[2];
                     aux[0]=a[i];
                     aux[1]='\0';
@@ -238,6 +271,28 @@ void expressao(){
                     while(strcmp("(", posfixa->topo->dados)!=0){
                         pos[k] = posfixa->topo->dados[0];
                         k++;
+                        pos[k] = ' ';
+                        k++;
+                        desempilha(posfixa);
+                    }
+                    desempilha(posfixa);
+                }
+                else if(a[i]==']'){
+                    while(strcmp("[", posfixa->topo->dados)!=0){
+                        pos[k] = posfixa->topo->dados[0];
+                        k++;
+                        pos[k] = ' ';
+                        k++;
+                        desempilha(posfixa);
+                    }
+                    desempilha(posfixa);
+                }
+                else if(a[i]=='}'){
+                    while(strcmp("{", posfixa->topo->dados)!=0){
+                        pos[k] = posfixa->topo->dados[0];
+                        k++;
+                        pos[k] = ' ';
+                        k++;
                         desempilha(posfixa);
                     }
                     desempilha(posfixa);
@@ -246,13 +301,52 @@ void expressao(){
             while(posfixa->quantidade){
                 pos[k] = posfixa->topo->dados[0];
                 k++;
+                pos[k] = ' ';
+                k++;
                 desempilha(posfixa);
             }
             remove_pilha(posfixa);
         }
+        if(comnumeros){
+            /*caso seja uma expressao numerica, calculando o resultado*/
+            tipo_pilha* resultado = aloca_pilha();
+            for(int i=0; i<strlen(pos); i++){
+                if((pos[i]>='0' && pos[i]<='9')  ||  pos[i]==','  || pos[i]=='.'){
+                    char aux[100] = "\0";
+                    int k=0;
+                    aux[k] = pos[i];
+                    k++;
+                    while((pos[i+1]>='0' && pos[i+1]<='9')  ||  pos[i+1]==','  || pos[i+1]=='.'){
+                        i++;
+                        aux[k] = pos[i];
+                        k++;
+                    }
+                    empilha(resultado, aux);
+                }
+                else if(pos[i]=='+' || pos[i]=='-' || pos[i]=='/' || pos[i]=='*'){
+                    double y = stringtodouble(resultado->topo->dados);
+                    desempilha(resultado);
+                    double x = stringtodouble(resultado->topo->dados);
+                    desempilha(resultado);
+                    double z = 0;
+                    if(pos[i]=='+') z = x+y;
+                    else if(pos[i]=='-') z = x-y;
+                    else if(pos[i]=='*') z = x*y;
+                    else if(pos[i]=='/') z = x/y;
+                    char auxx[100] = "\0";
+                    doubletostring(z, auxx);
+                    empilha(resultado, auxx);
+                }
+            }
+            result = stringtodouble(resultado->topo->dados);
+            remove_pilha(resultado);
+        }
     }
     menu(); 
 }
+
+
+
 
 void menu() {
     int a = 4;
@@ -272,6 +366,9 @@ void menu() {
     else if(a==2) expressao();
     else if(a==3) system("clear");
 }
+
+
+
 
 int main (){
     menu();
