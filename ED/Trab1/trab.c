@@ -196,12 +196,12 @@ void expressao(){
                         if(!strcmp("(", validar->topo->dados)) desempilha(validar);
                         else valida=0;
                     }
-                    else if(a[i]=='['){
-                        if(!strcmp("]", validar->topo->dados)) desempilha(validar);
+                    else if(a[i]==']'){
+                        if(!strcmp("[", validar->topo->dados)) desempilha(validar);
                         else valida=0;
                     }
-                    else if(a[i]=='{'){
-                        if(!strcmp("}", validar->topo->dados)) desempilha(validar);
+                    else if(a[i]=='}'){
+                        if(!strcmp("{", validar->topo->dados)) desempilha(validar);
                         else valida=0;
                     }
                 }
