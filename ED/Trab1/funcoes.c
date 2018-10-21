@@ -21,6 +21,9 @@ double stringtodouble(char* string){
 		negativo = 1;
 		string[0] = '0';	
 	}
+    
+    if(string[0]=='+') string[0]='0';
+
 	for(int i=0; i<strlen(string); i++){
 		if(string[i]=='.' || string[i]==','){
 			comvirgula=1;

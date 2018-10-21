@@ -223,6 +223,13 @@ void expressao(){
         if(!strcmp("sair", a)) sair = 1;
         else{
             /*validando a expressao*/
+            valida=0;
+
+            /*ha algum numero ou icognita?*/
+            for(int i=0; i<strlen(a) && !valida; i++){
+                if((a[i]>='0' && a[i]<='9')||(a[i]>='a' && a[i]<='z')||(a[i]>='A' && a[i]<='Z')) valida=1;
+            }
+
             tipo_pilha* validar = aloca_pilha();
             for(int i=0; i<strlen(a) && valida; i++){
                 if(a[i]=='(' || a[i]=='[' || a[i]=='{'){
