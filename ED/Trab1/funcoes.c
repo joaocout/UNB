@@ -1,7 +1,20 @@
+/**
+@file funcoes.c
+@brief Contém a implementação de funções de conversões entre tipos
+\par
+Contém funções de conversão utilizadas exaustivamente durante o trabalho,
+uma função de conversão de 'string' para 'double' e outra de 'double' para 'string'.
+**/
+
 #include "funcoes.h"
 #include <math.h>
 #include <string.h>
-
+/**
+@brief Converte uma string para double
+\par
+Recebe uma string e retorna seu valor em double;
+@param string string a ser convertida
+**/
 double stringtodouble(char* string){
 	int comvirgula=0, posvirgula, negativo=0;
 	if(string[0]=='-'){
@@ -32,7 +45,12 @@ double stringtodouble(char* string){
 	if(negativo) return -a;
 	else return a;
 }
-
+/**
+@brief Inverte uma string
+\par
+Recebe uma string e a inverte.
+@param string string a ser invertida
+**/
 void inverter(char* string){
     for(int i=0, j=strlen(string)-1; i<j; i++, j--){
         char aux = string[i];
@@ -40,6 +58,14 @@ void inverter(char* string){
         string[j] = aux;
     }
 }
+
+/**
+@brief Converte um número para string
+\par
+Recebe o numero a ser convertido e a string onde será gravada a string resultado;
+@param num número double que se deseja converter
+@param string string onde se deseja gravar o resultado da conversão
+**/
 void doubletostring (double num, char* string){
     
     int negativo = 0;

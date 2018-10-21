@@ -1,3 +1,29 @@
+/**
+\mainpage Trabalho 1 - Calculadora & Avaliação de Expressões Aritméticas
+Este trabalho objetiva a realização de uma calculadora, e de um conversor de expressões numéricas na forma infixa para a forma posfixa,
+incluindo sua validação e o cálculo de seu resultado, caso seja possível. Tudo utilizando implementado através do uso de pilhas.
+-# Modo Calculadora:
+\n A calculadora funciona da seguinte forma:
+\n Se um número é digitado, o mesmo é empilhado em uma pilha designada para a calculadora;
+\n Se uma operação é digitada, a mesma é realizada entre os dois últimos números digitados, o topo e seu anterior, e o resultado é empilhado novamente.
+-# Modo Resolução de Expressões:
+\n Esse modo opera da seguinte forma:
+\n Uma expressão na forma infixa é recebida;
+\n Se a mesma for válida, a sua forma posfixa é mostrada;
+\n Se for possível, um resultado para a mesma é mostrado na tela;
+\n Utilizando pilhas tanto para a geração da forma posfixa, tanto para o cálculo do resultado.
+**/
+
+/**
+@file trab.c
+@brief Arquivo raiz do trabalho
+\par
+É responsável por toda a parte gráfica do programa, como printar menus, printar resultados e solicitar a emtrada de dados ao user,
+além de ser responsável por chamar os dois modos possiveis: 
+o modo calculadora e o modo resolução de expressões.
+**/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,7 +37,14 @@ void expressao();
 
 
 
-
+/**
+@brief Inicia a execução do modo calculadora
+\par
+Cria uma pilha e aguarda a entrada de dados via 'scanf';
+\n Caso seja um operando o mesmo é empilhado;
+\n Caso seja um operador, os operandos são desempilhados, a operação realizada, e o resultado empilhado novamente;
+\n Quando o usuário digita 'sair', a funcão retorna ao menu principal.
+**/
 void calculadora(){
     int sair = 0;
     char a[100];
@@ -145,7 +178,15 @@ void calculadora(){
 
 
 
-
+/**
+@brief Inicia a execução do modo resolução de expressão
+\par
+O programa aguarda a entrada de uma expressão na forma infixa via 'scanf';
+\n Primeiramente, cria-se uma pilha para a validação da expressão, sendo que essa pilha é removida ao final do processo;
+\n Caso a expressão seja válida, inicia-se a geração da expressão posfixa, utilizando uma pilha para armazenar os operadores;
+\n Ao final, é exibido se a expressão é válida, sua forma posfixa(caso possível), e seu resultado(caso possível);
+\n Caso o usuário entre com 'sair', a funcão retorna ao menu principal. 
+**/
 
 void expressao(){
 
@@ -347,7 +388,14 @@ void expressao(){
 
 
 
-
+/**
+@brief Mostra o menu principal
+\par
+São exibidos os modos de operação ao usuário, e aguarda-se a entrada de dados;
+\n '1' para o modo calculadora;
+\n '2' para o modo resolução de expressões;
+\n '3' para encerrar a execução do programa.
+**/
 void menu() {
     int a = 4;
     int invalido = 0;
@@ -369,7 +417,9 @@ void menu() {
 
 
 
-
+/**
+@brief Inicia a execução do programa simplesmente chamando a função menu 
+**/
 int main (){
     menu();
     return 0;

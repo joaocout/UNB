@@ -1,3 +1,11 @@
+/**
+@file funcoes.h
+@brief Contém os headers/declaração das funcões implementadas no arquivo funcoes.c
+\par
+Contém funcoes de conversão entre tipos, muito utilizadas no trabalho
+**/
+
+
 #ifndef _FUNCOES_H_
 #define _FUNCOES_H_
 

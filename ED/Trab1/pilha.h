@@ -1,14 +1,31 @@
+/**
+@file pilha.h
+@brief Contém os headers/declaração de structs e de funções implementadas no arquivo pilha.c
+**/
+
 #ifndef _PILHA_H_
 #define _PILHA_H_
 
 
-
+/**
+@brief Struct que representa um elemento da pilha
+\par
+@var proximo Ponteiro para o próximo elemento da pilha
+@var dados String dos dados que estão empilhados
+**/
 typedef struct elemento{
 	struct elemento* proximo;
 	char* dados;
 }tipo_elemento;
 
-typedef struct{
+
+/**
+@brief Struct que representa uma pilha
+\par
+@var topo ponteiro para o elemento do topo de uma pilha
+@var quantidade quantidade de elementos atualmente na pilha
+**/
+typedef struct pilha{
 	tipo_elemento* topo;
 	int quantidade;
 }tipo_pilha;
