@@ -1,20 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main () {
-	int n, m ,q;
-	cin >> n >> m >> q;
-	vector< pair<int,vector<int>> > grafo(makepair()n);
+int vetin[100000], vetout[100000];
 
+int main () {
+	int n, m, q;
+	cin >> n >> m >> q;
 	for(int i=0; i<m; i++){
 		int a, b;
-		cin >> a >> b;
-		grafo[a].second.push_back(b);
-		grafo[b].first
+		scanf("%d %d", &a, &b);
+		vetout[a]++;
+		vetin[b]++;
 	}
 	for(int i=0; i<q; i++){
-		int t, x;
-		cin >> t >> x;
-
+		int t,x ;
+		scanf("%d %d", &t, &x);
+		if(t==1) printf("%d\n", vetout[x]);
+		else if(t==2) printf("%d\n", vetin[x]);
 	}
+	return 0;	
 }
