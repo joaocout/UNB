@@ -1,9 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+
 int dist[1000001];
 vector <vector <int>> graph(1000001);
 int visited[1000001];
+
 
 void bfs(int start){
 	
@@ -28,7 +30,7 @@ void bfs(int start){
 
 int main () {
 
-	for(int i=0; i<100000; i++) dist[i] = 1000000000;
+	for(int i=0; i<=100000; i++) dist[i] = 1000000000;
 
 	int n, m, k, q;
 	scanf("%d %d", &n, &m);
