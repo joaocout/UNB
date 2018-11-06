@@ -1,6 +1,4 @@
 #include <bits/stdc++.h>
-#define INFI 1e9
-
 using namespace std;
 
 
@@ -37,27 +35,6 @@ void dijkstra(int start){
 }
 
 int main () {
-    int n, m;
-    cin >> n >> m;
-    int s, q;
-    cin >> s >> q;
-
-    /*first = vertice destino*/
-    /*second = peso da aresta*/
-
-    for(int i=0; i<m; i++){
-        int a, b, w;
-        scanf("%d %d %d", &a, &b, &w);
-        graph[a].push_back(make_pair(b, w));
-        graph[b].push_back(make_pair(a, w));
-    }
-
-    dijkstra(s);
-
-    for(int i=0; i<q; i++){
-        int x;
-        scanf("%d", &x);
-        printf("%d\n", d[x]);
-    }
+    
     return 0;
 }
