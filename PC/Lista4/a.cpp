@@ -18,20 +18,22 @@ void dijkstra(int start){
 
     priority_queue < pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>> > pq;
     pq.push(make_pair(d[start], start));
-
-    int dt, w;
-    int u, v;
-
+    /*first = distancia do vertice ao s*/
+    /*numero do vertice*/
+    
     while(pq.size()){
-        tie(dt, u) = pq.top();
+        
+        int u = pq.top().second;    
         pq.pop();
 
         for(pair<int,int> edge : graph[u]){
+            int v, w;
             tie(v, w) = edge;
+            
             if(d[v] > d[u] + w){ 
                 d[v] = d[u] + w;
                 pq.push(make_pair(d[v], v));
-                }
+            }
         }
     }
 }
