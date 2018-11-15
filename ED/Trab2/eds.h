@@ -17,6 +17,20 @@ typedef struct node {
     struct node* right;
 } t_node;
 
+
+typedef struct elemento{
+    Ninja* ninja;
+    struct elemento* anterior;
+    struct elemento* proximo;
+}t_elemento;
+
+typedef struct{
+    int qtd;
+    t_elemento* primeiro;
+    t_elemento* ultimo;
+}t_lista;
+
+
 t_node* node_create();
 
 Ninja* ninja_create(char* nome, char* elemento, int ninjutsu, int genjutsu, int taijutsu, int defesa);
@@ -31,18 +45,9 @@ Ninja* fight(Ninja* ninja_one, Ninja* ninja_two, int attribute);
 
 void tree_print_preorder(t_node* root);
 
+void copiar_ninjas(t_node* root, t_lista* list);
 
-typedef struct elemento{
-    Ninja* ninja;
-    struct elemento* anterior;
-    struct elemento* proximo;
-}t_elemento;
 
-typedef struct{
-    int qtd;
-    t_elemento* primeiro;
-    t_elemento* ultimo;
-}t_lista;
 
 t_lista* list_create();
 

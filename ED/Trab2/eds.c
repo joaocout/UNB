@@ -53,7 +53,7 @@ void tree_free(t_node* tree){
     if(tree!=NULL){
         t_node* aux = tree->left;
         t_node* auxx = tree->right;
-        ninja_free(tree->ninja);
+        if(tree->ninja!=NULL) ninja_free(tree->ninja);
         free(tree);
         tree_free(aux);
         tree_free(auxx);
@@ -78,11 +78,24 @@ Ninja* fight(Ninja* ninja_one, Ninja* ninja_two, int attribute){
         else return ninja_two;
     }
 }
+
 void tree_print_preorder(t_node* root){
     if(root->ninja!=NULL) printf("%s\n", root->ninja->nome);
     if(root->left!=NULL) tree_print_preorder(root->left);
     if(root->right!=NULL) tree_print_preorder(root->right);
 }
+
+void copiar_ninjas(t_node* root, t_lista* list){
+    if(root->left!=NULL) copiar_ninjas(root->left, list);
+    if(root->right!=NULL) copiar_ninjas(root->right, list);
+    if(root->left==NULL && root->right == NULL){
+        t_elemento* aux = list->primeiro;
+        root->ninja = aux->ninja;
+        aux = aux->proximo;
+    }
+}
+
+
 
 
 t_elemento* element_create(){
@@ -115,7 +128,8 @@ t_lista* list_create(){
 void list_free(t_lista* lista){
     t_elemento* aux = lista->primeiro;
     while(aux!=NULL){
-        ninja_free(aux->ninja);
+
+        if(aux->ninja!=NULL) ninja_free(aux->ninja);
         t_elemento* auxx = aux->proximo;
         free(aux);
         aux = auxx;
