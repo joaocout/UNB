@@ -85,13 +85,13 @@ void tree_print_preorder(t_node* root){
     if(root->right!=NULL) tree_print_preorder(root->right);
 }
 
-void copiar_ninjas(t_node* root, t_lista* list){
-    if(root->left!=NULL) copiar_ninjas(root->left, list);
-    if(root->right!=NULL) copiar_ninjas(root->right, list);
+void copiar_ninjas(t_node* root, t_elemento* atual){
+    if(root->left!=NULL) copiar_ninjas(root->left, atual);
+    if(root->right!=NULL) copiar_ninjas(root->right, atual);
     if(root->left==NULL && root->right == NULL){
         t_elemento* aux = list->primeiro;
         root->ninja = aux->ninja;
-        aux = aux->proximo;
+        lista->primeiro = list aux->proximo;
     }
 }
 
