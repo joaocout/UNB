@@ -85,6 +85,8 @@ void tree_print_preorder(t_node* root){
     if(root->right!=NULL) tree_print_preorder(root->right);
 }
 
+/*
+REFAZER ESSA
 void copiar_ninjas(t_node* root, t_elemento* atual){
     if(root->left!=NULL) copiar_ninjas(root->left, atual);
     if(root->right!=NULL) copiar_ninjas(root->right, atual);
@@ -94,7 +96,7 @@ void copiar_ninjas(t_node* root, t_elemento* atual){
         lista->primeiro = list aux->proximo;
     }
 }
-
+*/
 
 
 
