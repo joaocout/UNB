@@ -45,8 +45,8 @@ Ninja* fight(Ninja* ninja_one, Ninja* ninja_two, int attribute);
 
 void tree_print_preorder(t_node* root);
 
-void copiar_ninjas(t_node* root, t_lista* list);
-
+/*void copiar_ninjas(t_node* root, t_lista* list);
+*/
 
 
 t_lista* list_create();
