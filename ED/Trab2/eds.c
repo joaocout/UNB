@@ -85,18 +85,16 @@ void tree_print_preorder(t_node* root){
     if(root->right!=NULL) tree_print_preorder(root->right);
 }
 
-/*
-REFAZER ESSA
-void copiar_ninjas(t_node* root, t_elemento* atual){
-    if(root->left!=NULL) copiar_ninjas(root->left, atual);
-    if(root->right!=NULL) copiar_ninjas(root->right, atual);
-    if(root->left==NULL && root->right == NULL){
+void copiar_ninjas(t_node* root, t_lista* list){
+    if(root->left!=NULL) copiar_ninjas(root->left, list);
+    if(root->right!=NULL) copiar_ninjas(root->right, list);
+    if(root->left==NULL && root->right==NULL){
         t_elemento* aux = list->primeiro;
         root->ninja = aux->ninja;
-        lista->primeiro = list aux->proximo;
+        list->primeiro = aux->proximo;
+        free(aux);
     }
 }
-*/
 
 
 
@@ -111,9 +109,11 @@ t_elemento* element_create(){
 void aux_list_create(t_lista* lista, t_elemento* elemento, int i){
     if(i<16){
         i++;
-        elemento->proximo = element_create();
-        if(i==16) lista->ultimo = elemento->proximo;
-        aux_list_create(lista, elemento->proximo, i);
+        t_elemento* aux = element_create();
+        elemento->proximo = aux;
+        aux->anterior = elemento;
+        if(i==16) lista->ultimo = aux;
+        aux_list_create(lista, aux, i);
     }
 }
 
