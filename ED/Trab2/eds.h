@@ -58,5 +58,6 @@ void list_free(t_lista* lista);
 
 void print_list(t_lista* lista);
 
+Ninja* buscar_ninja(t_lista* list, int posicao);
 
 #endif

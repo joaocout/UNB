@@ -152,9 +152,41 @@ void inserir_ninja(t_lista* lista, int posicao, char* nome, char* elemento, int 
 
 void print_list(t_lista* lista){
     t_elemento* aux = lista->primeiro;
+    int i=1;
     while(aux!=NULL){
         Ninja* n = aux->ninja;
-        printf("%s %s %d %d %d %d\n", n->nome, n->elemento, n->ninjutsu, n->genjutsu, n->taijutsu, n->defesa);
+        printf("Personagem %d:\n", i);
+        int a = rand()%100;
+
+        printf("Ninjutsu: ");
+        if(a>=0 && a<=24) printf("%d ",aux->ninja->ninjutsu);
+        else printf("?? ");
+
+        printf("Genjutsu: ");
+        if(a>=25 && a<=49) printf("%d ",aux->ninja->genjutsu);
+        else printf("?? ");
+
+        printf("Taijutsu: ");
+        if(a>=50 && a<=74) printf("%d ",aux->ninja->taijutsu);
+        else printf("?? ");
+
+        printf("Defesa: ");
+        if(a>=75 && a<=99) printf("%d ",aux->ninja->defesa);
+        else printf("?? ");
+
+        printf("\n\n");
         aux = aux->proximo;
+        i++;
     }
+}
+
+
+Ninja* buscar_ninja(t_lista* list, int posicao){
+    int i=0;
+    t_elemento* aux = list->primeiro;
+    while(i!=posicao){
+        aux = aux->proximo;
+        i++;
+    }
+    return aux->ninja;
 }
