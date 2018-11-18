@@ -1,4 +1,4 @@
-#include "eds.h"
+#include "../headers/eds.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

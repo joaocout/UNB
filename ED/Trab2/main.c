@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "eds.h"
+#include "headers/eds.h"
 
 
 void randvet(int* vet, int range){
