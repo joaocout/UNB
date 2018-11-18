@@ -1,8 +1,7 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
-#include "headers/eds.h"
-
+#include "eds.h"
 
 void randvet(int* vet, int range){
     int usado[range];
@@ -19,7 +18,6 @@ void randvet(int* vet, int range){
         usado[aux] = 1;
     }
 }
-
 
 int main () {
 
