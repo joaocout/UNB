@@ -61,19 +61,19 @@ void tree_free(t_node* tree){
 }
 
 Ninja* fight(Ninja* ninja_one, Ninja* ninja_two, int attribute){
-    if(attribute==1){
+    if(attribute==0){
         if(ninja_one->ninjutsu >= ninja_two->ninjutsu) return ninja_one;
         else return ninja_two;
     }
-    else if(attribute==2){
+    else if(attribute==1){
         if(ninja_one->genjutsu >= ninja_two->genjutsu) return ninja_one;
         else return ninja_two;
     }
-    else if(attribute==3){
+    else if(attribute==2){
         if(ninja_one->taijutsu >= ninja_two->taijutsu) return ninja_one;
         else return ninja_two;
     }
-    else if(attribute==4){
+    else if(attribute==3){
         if(ninja_one->defesa >= ninja_two->defesa) return ninja_one;
         else return ninja_two;
     }

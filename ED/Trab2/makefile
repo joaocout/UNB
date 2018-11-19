@@ -1,13 +1,13 @@
 all: main
 
 main: eds.o exame.o
-	gcc -o main main.c eds.o exame.o
+	gcc -g -o main main.c eds.o exame.o
 
 exame.o:
-	gcc -c exame.c
+	gcc -g -c exame.c
 
 eds.o: 
-	gcc -c eds.c
+	gcc -g -c eds.c
 
 clr:
 	rm exame.o

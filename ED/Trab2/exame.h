@@ -7,4 +7,6 @@ void start();
 
 Ninja* escolherninja(t_lista* list);
 
+void torneio(t_node* root, Ninja* personagem, int etapa);
+
 #endif
