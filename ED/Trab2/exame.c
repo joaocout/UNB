@@ -4,9 +4,19 @@
 #include <stdio.h>
 #include <string.h>
 
+
 char batalhas[15][100];
-int batalha=0;
-int fim=0;
+int batalha;
+int fim;
+
+void initglobal(){
+    fim = 0;
+    batalha = 0;
+    for(int i=0; i<15; i++)
+        for(int j=0; j<100; j++)
+            batalhas[i][j] = '\0';
+}
+
 
 void historico(){
     int etapa=1;
@@ -164,6 +174,8 @@ Ninja* escolherninja(t_lista* list){
 
 void start () {
 
+    initglobal();
+    
     t_lista* list = list_create();
     t_lista* aux_list = list_create();
     t_node* root = tree_create();

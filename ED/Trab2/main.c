@@ -6,16 +6,16 @@
 
 void menu(){
     int a=0;
-    while(a!=1 && a!=2){
+    while(a!=2){
         system("clear");
         printf("EXAME CHUNIN\n\n");
         printf("[1] - Iniciar Exame\n");
         printf("[2] - Sair\n\n");
         printf("Escolha uma opção: ");
         scanf("%d", &a);
+        if(a==1) start();
     }
-    if(a==1) start();
-    else if(a==2) system("clear");
+    system("clear");
 }
 
 int main () {
