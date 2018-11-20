@@ -10,6 +10,7 @@ int fim=0;
 
 void historico(){
     int etapa=1;
+    printf("HISTORICO DE BATALHAS: \n\n");
     for(int i=0; i<batalha; i++){
         if(i==0) printf("Etapa %d\n\n", etapa);
         if(i==8){
@@ -33,10 +34,9 @@ void torneio(t_node* root, Ninja* personagem, int etapa){
     if(etapa==5){
         fim=1;
         system("clear");
-        printf("VC VENCEU O TORNEIO\n");
+        printf("VC VENCEU O TORNEIO!\n\n");
         printf("Pressione ENTER para continuar: ");
         getchar();
-        system("clear");
         return;
     }
 
@@ -56,7 +56,7 @@ void torneio(t_node* root, Ninja* personagem, int etapa){
                 printf("2) Genjutsu: %d\n", personagem->genjutsu);
                 printf("3) Taijutsu: %d\n", personagem->taijutsu);
                 printf("4) Defesa: %d\n\n", personagem->defesa);
-                printf("Seu adversário: ");
+                printf("Seu adversario: ");
                 if(!strcmp(root->left->ninja->nome, personagem->nome)) printf("%s\n\n", root->right->ninja->nome);
                 else printf("%s\n\n", root->left->ninja->nome);
                 printf("Selecione um atributo: ");
@@ -78,10 +78,10 @@ void torneio(t_node* root, Ninja* personagem, int etapa){
             root->ninja = ninja_create(vencedor->nome, vencedor->elemento, vencedor->ninjutsu, vencedor->genjutsu, vencedor->taijutsu, vencedor->defesa);            
             system("clear");
             if(!strcmp(vencedor->nome,personagem->nome)){
-                printf("VITORIA\n\n");
+                printf("Resultado da Etapa %d: VITORIA\n\n", etapa);
             }
             else{
-                printf("DERROTA\n\n");
+                printf("Resultado da Etapa %d: DERROTA\n\n", etapa);
                 fim=1;
             }
             if(a==1){
@@ -156,7 +156,7 @@ Ninja* escolherninja(t_lista* list){
         printf("Escolha seu personagem:\n\n");
         print_list(list);
         printf("\n");
-        printf("Escolha uma opção: ");
+        printf("Escolha uma opcao: ");
         scanf("%d", &a);
     }
     return buscar_ninja(list, a-1);
@@ -204,9 +204,11 @@ void start () {
         torneio(root, personagem, i);
         i++;
     }
+    system("clear");
     historico();
     printf("\nPressione ENTER para continuar: ");
     getchar();
+    system("clear");
 
     list_free(list);
     tree_free(root);
