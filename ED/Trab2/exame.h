@@ -9,4 +9,9 @@ Ninja* escolherninja(t_lista* list);
 
 void torneio(t_node* root, Ninja* personagem, int etapa);
 
+void randvet(int* vet, int range);
+
+void historico();
+
+
 #endif

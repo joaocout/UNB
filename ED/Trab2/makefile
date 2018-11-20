@@ -9,7 +9,7 @@ exame.o:
 eds.o: 
 	gcc -g -c eds.c
 
-clr:
+rm:
 	rm exame.o
 	rm eds.o
 	rm main

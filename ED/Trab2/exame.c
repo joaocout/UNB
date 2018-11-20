@@ -4,10 +4,29 @@
 #include <stdio.h>
 #include <string.h>
 
-
-Ninja* batalhas[15][2];
+char batalhas[15][100];
 int batalha=0;
 int fim=0;
+
+void historico(){
+    int etapa=1;
+    for(int i=0; i<batalha; i++){
+        if(i==0) printf("Etapa %d\n\n", etapa);
+        if(i==8){
+            etapa++;
+            printf("\nEtapa %d\n\n", etapa);
+        }
+        if(i==12){
+            etapa++;
+            printf("\nEtapa %d\n\n", etapa);
+        }
+        if(i==14){
+            etapa++;
+            printf("\nEtapa %d\n\n", etapa);
+        }
+        printf("%s\n", batalhas[i]);
+    }
+}
 
 void torneio(t_node* root, Ninja* personagem, int etapa){
 
@@ -44,61 +63,75 @@ void torneio(t_node* root, Ninja* personagem, int etapa){
                 scanf("%d", &a);
                 system("clear");
             }
+
+            if(a==1) sprintf(batalhas[batalha], "%s(Ninjutsu %d) x %s(Ninjutsu %d)", root->left->ninja->nome, root->left->ninja->ninjutsu,
+                            root->right->ninja->nome, root->right->ninja->ninjutsu);
+            else if(a==2) sprintf(batalhas[batalha], "%s(Genjutsu %d) x %s(Genjutsu %d)", root->left->ninja->nome, root->left->ninja->genjutsu,
+                            root->right->ninja->nome, root->right->ninja->genjutsu);
+            else if(a==3) sprintf(batalhas[batalha], "%s(Taijutsu %d) x %s(Taijutsu %d)", root->left->ninja->nome, root->left->ninja->taijutsu,
+                            root->right->ninja->nome, root->right->ninja->taijutsu);
+            else if(a==4) sprintf(batalhas[batalha], "%s(Defesa %d) x %s(Defesa %d)", root->left->ninja->nome, root->left->ninja->defesa,
+                            root->right->ninja->nome, root->right->ninja->defesa);
+            batalha++;
+
             Ninja* vencedor = fight(root->left->ninja, root->right->ninja, a-1);
             root->ninja = ninja_create(vencedor->nome, vencedor->elemento, vencedor->ninjutsu, vencedor->genjutsu, vencedor->taijutsu, vencedor->defesa);            
+            system("clear");
             if(!strcmp(vencedor->nome,personagem->nome)){
-                system("clear");
                 printf("VITORIA\n\n");
-                if(a==1){
-                    printf("%s (Ninjutsu %d) ", root->left->ninja->nome, root->left->ninja->ninjutsu);
-                    printf("x %s (Ninjutsu %d)\n\n", root->right->ninja->nome, root->right->ninja->ninjutsu);
-                }
-                else if(a==2){
-                    printf("%s (Genjutsu %d) ", root->left->ninja->nome, root->left->ninja->genjutsu);
-                    printf("x %s (Genjutsu %d)\n\n", root->right->ninja->nome, root->right->ninja->genjutsu);
-                }
-                else if(a==3){
-                    printf("%s (Taijutsu %d) ", root->left->ninja->nome, root->left->ninja->taijutsu);
-                    printf("x %s (Taijutsu %d)\n\n", root->right->ninja->nome, root->right->ninja->taijutsu);
-                }
-                else if(a==4){
-                    printf("%s (Defesa %d) ", root->left->ninja->nome, root->left->ninja->defesa);
-                    printf("x %s (Defesa %d)\n\n", root->right->ninja->nome, root->right->ninja->defesa);
-                }
-                ninja_free(root->left->ninja);
-                root->left->ninja = NULL;
-                ninja_free(root->right->ninja);
-                root->right->ninja = NULL;
-                printf("%s ganhou a batalha\n", personagem->nome);
-                printf("Pressione ENTER para continuar: ");
-                getchar(); getchar();
             }
             else{
-                ninja_free(root->left->ninja);
-                root->left->ninja = NULL;
-                ninja_free(root->right->ninja);
-                root->right->ninja = NULL;
-                fim = 1;
                 printf("DERROTA\n\n");
-                printf("Pressione ENTER para continuar: ");
-                getchar(); getchar();
-                system("clear");
-                return;
+                fim=1;
             }
+            if(a==1){
+                printf("%s (Ninjutsu %d) ", root->left->ninja->nome, root->left->ninja->ninjutsu);
+                printf("x %s (Ninjutsu %d)\n\n", root->right->ninja->nome, root->right->ninja->ninjutsu);
+            }
+            else if(a==2){
+                printf("%s (Genjutsu %d) ", root->left->ninja->nome, root->left->ninja->genjutsu);
+                printf("x %s (Genjutsu %d)\n\n", root->right->ninja->nome, root->right->ninja->genjutsu);
+            }
+            else if(a==3){
+                printf("%s (Taijutsu %d) ", root->left->ninja->nome, root->left->ninja->taijutsu);
+                printf("x %s (Taijutsu %d)\n\n", root->right->ninja->nome, root->right->ninja->taijutsu);
+            }
+            else if(a==4){
+                printf("%s (Defesa %d) ", root->left->ninja->nome, root->left->ninja->defesa);
+                printf("x %s (Defesa %d)\n\n", root->right->ninja->nome, root->right->ninja->defesa);
+            }
+            ninja_free(root->left->ninja);
+            root->left->ninja = NULL;
+            ninja_free(root->right->ninja);
+            root->right->ninja = NULL;
+            printf("%s ganhou a batalha!\n", root->ninja->nome);
+            printf("Pressione ENTER para continuar: ");
+            getchar(); getchar();
+            system("clear");
         }
         else{
             int a = rand()%4;
-            Ninja* vencedor = fight(root->left->ninja, root->right->ninja, a); 
+            Ninja* vencedor = fight(root->left->ninja, root->right->ninja, a);
+            
+            a++;
+            if(a==1) sprintf(batalhas[batalha], "%s(Ninjutsu %d) x %s(Ninjutsu %d)", root->left->ninja->nome, root->left->ninja->ninjutsu,
+                            root->right->ninja->nome, root->right->ninja->ninjutsu);
+            else if(a==2) sprintf(batalhas[batalha], "%s(Genjutsu %d) x %s(Genjutsu %d)", root->left->ninja->nome, root->left->ninja->genjutsu,
+                            root->right->ninja->nome, root->right->ninja->genjutsu);
+            else if(a==3) sprintf(batalhas[batalha], "%s(Taijutsu %d) x %s(Taijutsu %d)", root->left->ninja->nome, root->left->ninja->taijutsu,
+                            root->right->ninja->nome, root->right->ninja->taijutsu);
+            else if(a==4) sprintf(batalhas[batalha], "%s(Defesa %d) x %s(Defesa %d)", root->left->ninja->nome, root->left->ninja->defesa,
+                            root->right->ninja->nome, root->right->ninja->defesa);
+            batalha++;
+            
             root->ninja = ninja_create(vencedor->nome, vencedor->elemento, vencedor->ninjutsu, vencedor->genjutsu, vencedor->taijutsu, vencedor->defesa);
             ninja_free(root->left->ninja);
             root->left->ninja = NULL;
             ninja_free(root->right->ninja);
             root->right->ninja = NULL;
-
         }
     }   
 }
-
 
 void randvet(int* vet, int range){
     int usado[range];
@@ -171,6 +204,9 @@ void start () {
         torneio(root, personagem, i);
         i++;
     }
+    historico();
+    printf("\nPressione ENTER para continuar: ");
+    getchar();
 
     list_free(list);
     tree_free(root);
