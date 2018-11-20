@@ -13,6 +13,11 @@ void torneio(t_node* root, Ninja* personagem, int etapa){
 
     if(etapa==5){
         fim=1;
+        system("clear");
+        printf("VC VENCEU O TORNEIO\n");
+        printf("Pressione ENTER para continuar: ");
+        getchar();
+        system("clear");
         return;
     }
 
@@ -65,7 +70,7 @@ void torneio(t_node* root, Ninja* personagem, int etapa){
                 ninja_free(root->right->ninja);
                 root->right->ninja = NULL;
                 printf("%s ganhou a batalha\n", personagem->nome);
-                printf("Pressione qqr tecla para continuar: ");
+                printf("Pressione ENTER para continuar: ");
                 getchar(); getchar();
             }
             else{
@@ -75,7 +80,7 @@ void torneio(t_node* root, Ninja* personagem, int etapa){
                 root->right->ninja = NULL;
                 fim = 1;
                 printf("DERROTA\n\n");
-                printf("Pressione qqr tecla para continuar: ");
+                printf("Pressione ENTER para continuar: ");
                 getchar(); getchar();
                 system("clear");
                 return;
@@ -164,13 +169,6 @@ void start () {
     int i=1;
     while(!fim){
         torneio(root, personagem, i);
-        if(i==5) {
-            system("clear");
-            printf("VC VENCEU O TORNEIO\n");
-            printf("Pressione qqr tecla para continuar: ");
-            getchar();
-            system("clear");
-        }
         i++;
     }
 
