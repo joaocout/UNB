@@ -8,10 +8,12 @@
 char batalhas[15][100];
 int batalha;
 int fim;
+int bloqueado;
 
 void initglobal(){
     fim = 0;
     batalha = 0;
+    bloqueado=0;
     for(int i=0; i<15; i++)
         for(int j=0; j<100; j++)
             batalhas[i][j] = '\0';
@@ -62,17 +64,28 @@ void torneio(t_node* root, Ninja* personagem, int etapa){
                 system("clear");
                 printf("Etapa %d\n\n", etapa);
                 printf("Seu personagem: %s\n\n", personagem->nome);
-                printf("1) Ninjutsu: %d\n", personagem->ninjutsu);
-                printf("2) Genjutsu: %d\n", personagem->genjutsu);
-                printf("3) Taijutsu: %d\n", personagem->taijutsu);
-                printf("4) Defesa: %d\n\n", personagem->defesa);
+                
+                if(bloqueado!=1 )printf("1) Ninjutsu: %d\n", personagem->ninjutsu);
+                else printf("XX) XX: XX\n");
+                
+                if(bloqueado!=2) printf("2) Genjutsu: %d\n", personagem->genjutsu);
+                else printf("XX) XX: XX\n");
+                
+                if(bloqueado!=3) printf("3) Taijutsu: %d\n", personagem->taijutsu);
+                else printf("XX) XX: XX\n");
+                
+                if(bloqueado!=4) printf("4) Defesa: %d\n\n", personagem->defesa);
+                else printf("XX) XX: XX\n\n");
+
                 printf("Seu adversario: ");
                 if(!strcmp(root->left->ninja->nome, personagem->nome)) printf("%s\n\n", root->right->ninja->nome);
                 else printf("%s\n\n", root->left->ninja->nome);
                 printf("Selecione um atributo: ");
                 scanf("%d", &a);
+                if(a==bloqueado) a=0;
                 system("clear");
             }
+            bloqueado = a;
 
             if(a==1) sprintf(batalhas[batalha], "%s(Ninjutsu %d) x %s(Ninjutsu %d)", root->left->ninja->nome, root->left->ninja->ninjutsu,
                             root->right->ninja->nome, root->right->ninja->ninjutsu);
