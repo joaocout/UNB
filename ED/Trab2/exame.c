@@ -19,6 +19,25 @@ void initglobal(){
             batalhas[i][j] = '\0';
 }
 
+Ninja* inf_sup_elem(Ninja* a, Ninja* b){
+
+    if(!strcmp(a->elemento, "Fogo") && !strcmp(b->elemento, "Vento")) return a;
+    if(!strcmp(a->elemento, "Vento") && !strcmp(b->elemento, "Fogo")) return b;
+
+    if(!strcmp(a->elemento, "Vento") && !strcmp(b->elemento, "Relampago")) return a;
+    if(!strcmp(a->elemento, "Relampago") && !strcmp(b->elemento, "Vento")) return b;
+
+    if(!strcmp(a->elemento, "Relampago") && !strcmp(b->elemento, "Terra")) return a;
+    if(!strcmp(a->elemento, "Terra") && !strcmp(b->elemento, "Relampago")) return b;
+
+    if(!strcmp(a->elemento, "Terra") && !strcmp(b->elemento, "Agua")) return a;
+    if(!strcmp(a->elemento, "Agua") && !strcmp(b->elemento, "Terra")) return b;
+
+    if(!strcmp(a->elemento, "Agua") && !strcmp(b->elemento, "Fogo")) return a;
+    if(!strcmp(a->elemento, "Fogo") && !strcmp(b->elemento, "Agua")) return b;
+
+    return NULL;    
+}
 
 void historico(){
     int etapa=1;
@@ -57,15 +76,63 @@ void torneio(t_node* root, Ninja* personagem, int etapa){
         torneio(root->right, personagem, etapa);
     } 
     else if(root->left->ninja!=NULL && root->right->ninja!=NULL && etapa<=4){
-
+        
         if(!strcmp(root->left->ninja->nome, personagem->nome) || !strcmp(root->right->ninja->nome, personagem->nome)){
+            
+            int temp1 = personagem->ninjutsu;
+            int temp2 = personagem->genjutsu;
+            int temp3 = personagem->taijutsu;
+            int temp4 = personagem->defesa;
+
+            int supremacia;
+            Ninja* superior = inf_sup_elem(root->left->ninja, root->right->ninja);
+            if(superior==NULL) supremacia = 0;
+            else if(!strcmp(superior->nome, personagem->nome)) supremacia = 1;
+            else supremacia = -1;
+
+            int esquerda=0;
+            if(!strcmp(personagem->nome, root->left->ninja->nome)) esquerda=1;
+
+            double multiplicador;
+            if(supremacia==1) multiplicador = 1.2;
+            else if(supremacia==-1) multiplicador = 0.8;
+
+            if(supremacia==1 || supremacia==-1){
+                personagem->ninjutsu *= multiplicador;
+                personagem->genjutsu *= multiplicador;
+                personagem->taijutsu *= multiplicador;
+                personagem->defesa *= multiplicador;
+                if(esquerda){
+                    root->left->ninja->ninjutsu *= multiplicador;
+                    root->left->ninja->genjutsu *= multiplicador;
+                    root->left->ninja->taijutsu *= multiplicador;
+                    root->left->ninja->defesa *= multiplicador;
+                }
+                else{
+                    root->right->ninja->ninjutsu *= multiplicador;
+                    root->right->ninja->genjutsu *= multiplicador;
+                    root->right->ninja->taijutsu *= multiplicador;
+                    root->right->ninja->defesa *= multiplicador;
+                }
+            }
+
             int a = -1;
             while(a<1 || a>4){
                 system("clear");
                 printf("Etapa %d\n\n", etapa);
                 printf("Seu personagem: %s\n\n", personagem->nome);
+                if(supremacia==1){
+                    if(esquerda) printf("SUPREMACIA ELEMENTAL: %s > %s\n", root->left->ninja->elemento, root->right->ninja->elemento);
+                    else printf("SUPREMACIA ELEMENTAL: %s > %s\n", root->right->ninja->elemento, root->left->ninja->elemento);
+                    printf("Todos os atributos foram multiplicados por 1.2\n\n");
+                }
+                else if(supremacia==-1){
+                    if(esquerda) printf("INFERIORIDADE ELEMENTAL: %s < %s\n", root->left->ninja->elemento, root->right->ninja->elemento);
+                    else printf("INFERIORIDADE ELEMENTAL: %s < %s\n", root->right->ninja->elemento, root->left->ninja->elemento);
+                    printf("Todos os atributos foram multiplicados por 0.8\n\n");
+                }
                 
-                if(bloqueado!=1 )printf("1) Ninjutsu: %d\n", personagem->ninjutsu);
+                if(bloqueado!=1) printf("1) Ninjutsu: %d\n", personagem->ninjutsu);
                 else printf("XX) XX: XX\n");
                 
                 if(bloqueado!=2) printf("2) Genjutsu: %d\n", personagem->genjutsu);
@@ -95,10 +162,11 @@ void torneio(t_node* root, Ninja* personagem, int etapa){
                             root->right->ninja->nome, root->right->ninja->taijutsu);
             else if(a==4) sprintf(batalhas[batalha], "%s(Defesa %d) x %s(Defesa %d)", root->left->ninja->nome, root->left->ninja->defesa,
                             root->right->ninja->nome, root->right->ninja->defesa);
-            batalha++;
+
+            if(supremacia==1) strcat(batalhas[batalha], " [x1.2]");
+            else if(supremacia==-1) strcat(batalhas[batalha], " [x0.8]");
 
             Ninja* vencedor = fight(root->left->ninja, root->right->ninja, a-1);
-            root->ninja = ninja_create(vencedor->nome, vencedor->elemento, vencedor->ninjutsu, vencedor->genjutsu, vencedor->taijutsu, vencedor->defesa);            
             system("clear");
             if(!strcmp(vencedor->nome,personagem->nome)){
                 printf("Resultado da Etapa %d: VITORIA\n\n", etapa);
@@ -107,22 +175,27 @@ void torneio(t_node* root, Ninja* personagem, int etapa){
                 printf("Resultado da Etapa %d: DERROTA\n\n", etapa);
                 fim=1;
             }
-            if(a==1){
-                printf("%s (Ninjutsu %d) ", root->left->ninja->nome, root->left->ninja->ninjutsu);
-                printf("x %s (Ninjutsu %d)\n\n", root->right->ninja->nome, root->right->ninja->ninjutsu);
+            printf("%s\n\n", batalhas[batalha]);
+            batalha++;
+
+            personagem->ninjutsu = temp1;
+            personagem->genjutsu = temp2;
+            personagem->taijutsu = temp3;
+            personagem ->defesa = temp4;
+            if(esquerda){
+                root->left->ninja->ninjutsu = temp1;
+                root->left->ninja->genjutsu = temp2;
+                root->left->ninja->taijutsu = temp3;
+                root->left->ninja->defesa = temp4;
             }
-            else if(a==2){
-                printf("%s (Genjutsu %d) ", root->left->ninja->nome, root->left->ninja->genjutsu);
-                printf("x %s (Genjutsu %d)\n\n", root->right->ninja->nome, root->right->ninja->genjutsu);
+            else{
+                root->right->ninja->ninjutsu = temp1;
+                root->right->ninja->genjutsu = temp2;
+                root->right->ninja->taijutsu = temp3;
+                root->right->ninja->defesa = temp4;
             }
-            else if(a==3){
-                printf("%s (Taijutsu %d) ", root->left->ninja->nome, root->left->ninja->taijutsu);
-                printf("x %s (Taijutsu %d)\n\n", root->right->ninja->nome, root->right->ninja->taijutsu);
-            }
-            else if(a==4){
-                printf("%s (Defesa %d) ", root->left->ninja->nome, root->left->ninja->defesa);
-                printf("x %s (Defesa %d)\n\n", root->right->ninja->nome, root->right->ninja->defesa);
-            }
+
+            root->ninja = ninja_create(vencedor->nome, vencedor->elemento, vencedor->ninjutsu, vencedor->genjutsu, vencedor->taijutsu, vencedor->defesa);
             ninja_free(root->left->ninja);
             root->left->ninja = NULL;
             ninja_free(root->right->ninja);
@@ -134,7 +207,6 @@ void torneio(t_node* root, Ninja* personagem, int etapa){
         }
         else{
             int a = rand()%4;
-            Ninja* vencedor = fight(root->left->ninja, root->right->ninja, a);
             
             a++;
             if(a==1) sprintf(batalhas[batalha], "%s(Ninjutsu %d) x %s(Ninjutsu %d)", root->left->ninja->nome, root->left->ninja->ninjutsu,
@@ -146,7 +218,8 @@ void torneio(t_node* root, Ninja* personagem, int etapa){
             else if(a==4) sprintf(batalhas[batalha], "%s(Defesa %d) x %s(Defesa %d)", root->left->ninja->nome, root->left->ninja->defesa,
                             root->right->ninja->nome, root->right->ninja->defesa);
             batalha++;
-            
+
+            Ninja* vencedor = fight(root->left->ninja, root->right->ninja, a);
             root->ninja = ninja_create(vencedor->nome, vencedor->elemento, vencedor->ninjutsu, vencedor->genjutsu, vencedor->taijutsu, vencedor->defesa);
             ninja_free(root->left->ninja);
             root->left->ninja = NULL;
