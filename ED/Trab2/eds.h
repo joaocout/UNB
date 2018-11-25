@@ -22,10 +22,6 @@ typedef struct {
 
 /**
 @brief Struct que representa um nó da árvore binária
-\par
-@var ninja ponteiro para estrutura do tipo Ninja
-@var left ponteiro para nó filho da esquerda
-@var right ponteiro para nó filho da direita
 **/
 typedef struct node {
     Ninja* ninja;
@@ -33,13 +29,8 @@ typedef struct node {
     struct node* right;
 } t_node;
 
-
 /**
 @brief Struct que representa um elemento da lista duplamente encadeada
-\par
-@var ninja ponteiro para estrutura do tipo Ninja
-@var anterior ponteiro para o elemento anterior ao atual
-@var proximo ponteiro para o próximo elemento
 **/
 typedef struct elemento{
     Ninja* ninja;
@@ -49,10 +40,6 @@ typedef struct elemento{
 
 /**
 @brief Struct que representa a lista duplamente encadeada
-\par
-@var qtd quantidade de elementos na lista
-@var ultimo ponteiro para o último elemento da lista
-@var primeiro ponteiro para o primeiro elemento da lista
 **/
 typedef struct{
     int qtd;
