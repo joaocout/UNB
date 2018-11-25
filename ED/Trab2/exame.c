@@ -1,3 +1,9 @@
+/**
+@file exame.c
+@brief Contém a implementação de funções que tornam possíveis a execução do exame em si,
+imprimindo menus, mensagens na tela, e modificando as estruturas de dados árvore binária e lista duplamente encadeada
+**/
+
 #include "exame.h"
 #include "eds.h"
 #include <stdlib.h>
@@ -10,6 +16,12 @@ int batalha;
 int fim;
 int bloqueado;
 
+/**
+@brief Inicializa variáveis globais
+\par
+Inicializa algumas variáveis muito importantes na execução do trabalho.
+A função é chamada a cada vez que um novo exame é iniciado.  
+**/
 void initglobal(){
     fim = 0;
     batalha = 0;
@@ -19,6 +31,14 @@ void initglobal(){
             batalhas[i][j] = '\0';
 }
 
+/**
+@brief Lida com a supremacia elemental
+\par
+Recebe dois ninjas, e retorna um ponteiro para o ninja, entre os dois, superior elementalmente ao outro,
+caso haja supremacia elementar. Caso não haja supremacia, o retorno é nulo.
+@param a ponteiro para o primeiro ninja
+@param b ponteiro para o segundo ninja
+**/
 Ninja* inf_sup_elem(Ninja* a, Ninja* b){
 
     if(!strcmp(a->elemento, "Fogo") && !strcmp(b->elemento, "Vento")) return a;
@@ -39,6 +59,9 @@ Ninja* inf_sup_elem(Ninja* a, Ninja* b){
     return NULL;    
 }
 
+/**
+@brief Exibe o histórico de batalhas até a etapa em que o personagem escolhido competiu
+**/
 void historico(){
     int etapa=1;
     printf("HISTORICO DE BATALHAS: \n\n");
@@ -60,6 +83,20 @@ void historico(){
     }
 }
 
+/**
+@brief Responsável pela execução das etapas do torneio
+\par
+Executa as etapas do torneio, imprimindo mensagens de vitória, de derrota além da mensagem de campeão.
+Recursivamente chega ao nós cujos filhos, não são nulos(ou seja, possuem dois ninjas a lutar), e chama a função 'fight', declarada em eds.h.
+Imprime também as mensagens de superioridade e inferioridade elementar, e manuseia os atributos caso haja uma das duas. Imprime os atributos
+do personagem escolhido, conforme as restrições do trabalho(o atributo utilizado anteriormente não pode ser utilizado) e o nome do próximo
+adversário, e solicita entrada de escolha via 'scanf'. Grava via 'sprintf', o histórico de cada batalha na matriz global 'batalhas', utilizando
+a global 'batalha' para determinar em qual batalha atualmente se está. A global 'fim' determina se o torneio chegou ou não ao fim, e a global bloqueado
+determina qual atributo foi anteriormente esolhido pelo usuário, e portanto não deve ser utilizado novamente.
+@param root ponteiro para a raiz da árvore em que as batalhas ocorrerão
+@param personagem ponteiro para o ninja escolhido pelo usuário
+@param etapa armazena a etapa atual do torneio
+**/
 void torneio(t_node* root, Ninja* personagem, int etapa){
 
     if(etapa==5){
@@ -229,6 +266,15 @@ void torneio(t_node* root, Ninja* personagem, int etapa){
     }   
 }
 
+/**
+@brief Gera um vetor randômico de 16 elemetos
+\par
+Gera um vetor randômico, de tamanho 16, com valores entre 0 e range-1(quantidade de linhas do arquivo lido-1),
+que será utilizado para saber quais linhas do arquivo participarão do torneio. Se range for >=16, é garantido, que é possível criar o vetor,
+e que todos seus termos são diferentes.
+@param vet vetor para onde serão copiados os números aleatórios
+@param range faixa de valores disponíveis (0 até range-1)
+**/
 void randvet(int* vet, int range){
     int usado[range];
     for(int i=0; i<range; i++) usado[i]=0;
@@ -245,6 +291,13 @@ void randvet(int* vet, int range){
     }
 }
 
+/**
+@brief Mostra ao usuário os ninjas(de acordo com a especificação do trabalho) e solicita a escolha de um
+\par
+Utilizando a funcção declarada em eds.h,  'print_list' printa os ninjas que disputarão o torneio, e utilizando a função 'buscar_ninjas',
+busca o ninja escolhido pelo usuário. Retorna um ponteiro para o ninja escolhido.
+@param list lista de onde será escolhido o ninja
+**/
 Ninja* escolherninja(t_lista* list){
     int a = 20;
     while(a<1 || a>16){
@@ -258,6 +311,15 @@ Ninja* escolherninja(t_lista* list){
     return buscar_ninja(list, a-1);
 }
 
+/**
+@brief Inicia o torneio em si
+\par
+Inicia o torneio, lendo os ninjas do arquivo, selecionando-os aleatóriamente (é gerado um vetor randômico de 16 elementos, cujos
+valores dos elementos vão de 0 até a quantidade de linhas-1, e os valores dos elementos desse vetor randômico, são as linhas do arquivo que serão
+selecionadas para competir), copiando-os para as folhas da árvore, pede ao usuário que escolha um dos ninjas e chama a função 'torneio' até que
+o personagem escolhido perca, ou seja campeão. Utiliza duas listas duplamente encadeadas, uma auxliiar, que será utilizada para copiar os ninjas para as folhas da árvore,
+e outra, que será utilizada para outras tarefas durante a execução do torneio.
+**/
 void start () {
 
     initglobal();
