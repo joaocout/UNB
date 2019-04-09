@@ -23,8 +23,8 @@ public class EmpregadoSalFixo extends Funcionario{
 	}
 
 	public String toString(){
-		return "Empregado com salário fixo;\n" + super.toString() +
-		 "\nSalário: " + salario();
+		return "Empregado com Salário Fixo;\n" + super.toString() +
+		 "\nSalário Total: " + salario();
 	}
 
 }

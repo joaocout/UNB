@@ -1,3 +1,5 @@
+/*JOAO PEDRO ASSUNCAO COUTINHO - 180019813*/
+
 package ex2;
 
 
@@ -8,7 +10,7 @@ public class Test {
 		EmpregadoSalFixo joao = new EmpregadoSalFixo("João", "Silva", "129837", 1500.50);
 		System.out.println(joao.toString()+ "\n");
 
-		EmpregadoHoraExtra maria = new EmpregadoHoraExtra("Maria", "Ferreira", "122354", 1500.50, 50, 10.5);
+		EmpregadoHoraExtra maria = new EmpregadoHoraExtra("Maria", "Ferreira", "122354", 200, 12);
 		System.out.println(maria.toString() + "\n");
 
 		EmpregadoCom pedro = new EmpregadoCom("Pedro", "Pereira", "990931", 0.10, 20000);
