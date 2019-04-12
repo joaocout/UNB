@@ -1,5 +1,5 @@
 # UNB
-Repositório para backup de atividades e trabalhos da faculdade.
+Repositório para backup de atividades e trabalhos.
     
     APC ->  Algoritmos e Programação de Computadores;
     PC  ->  Programação Competitiva;
