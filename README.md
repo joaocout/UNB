@@ -1,5 +1,5 @@
 # UNB
-Backup de atividades e trabalhos.
+Backup.
     
     APC ->  Algoritmos e Programação de Computadores;
     PC  ->  Programação Competitiva;
