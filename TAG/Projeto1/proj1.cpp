@@ -24,9 +24,69 @@ responsaveis por descrever quantas arestas e vertices o grafo possui
 using namespace std;
 
 
-void bron_kerbosch(vector<int> r, vector<int> p, vector<int> x, vector<vector<int>> graph){
+vector<int> simple_union(vector<int> a, vector<int> b){
+    sort(a.begin(), a.end());
+    sort(b.begin(), b.end());
+
+    vector<int>::iterator eit, it;
+    vector<int> temp(a.size()+b.size()), result;
+
+    eit = set_union(a.begin(), a.end(), b.begin(), b.end(), temp.begin());
+    for(it = temp.begin(); it!=eit; it++)
+        result.push_back(*it);
+
+    return result;
+}
+vector<int> simple_intersection(vector<int> a, vector<int> b){
+    sort(a.begin(), a.end());
+    sort(b.begin(), b.end());
+
+    vector<int>::iterator eit, it;
+    vector<int> temp(a.size()), result;
+
+    eit = set_intersection(a.begin(), a.end(), b.begin(), b.end(), temp.begin());
+    for(it = temp.begin(); it!=eit; it++)
+        result.push_back(*it);
+
+    return result;
+}
+vector<int> simple_difference(vector<int> a, vector<int> b){
+    sort(a.begin(), a.end());
+    sort(b.begin(), b.end());
+
+    vector<int>::iterator eit, it;
+    vector<int> temp(a.size()), result;
+
+    eit = set_difference(a.begin(), a.end(), b.begin(), b.end(), temp.begin());
+    for(it = temp.begin(); it!=eit; it++)
+        result.push_back(*it);
+
+    return result;
+}
 
 
+void Bron_Kerbosch(vector<int> r, vector<int> p, vector<int> x, vector<vector<int>> graph){
+
+    //se P e X estao vazios
+    if(p.empty() && x.empty()){
+        cout << "Maximal Clique found: ";
+        for(int i = 0; i < r.size(); i++)
+            cout << r[i] << " ";
+        cout << endl;
+    }
+    //para cada vertice em P
+    for(int i = 0; i < p.size(); i++){
+        
+        vector<int> temp; // = {v} conjunto que soh possui um vertice
+        temp.push_back(p[i]);
+
+        Bron_Kerbosch(simple_union(r, temp), simple_intersection(p, graph[p[i]]), 
+        simple_intersection(x, graph[p[i]]), graph);
+
+        p = simple_difference(p, temp);
+        x = simple_union(x, temp);
+    
+    }
 
 }
 
@@ -82,26 +142,27 @@ int main () {
         
         }
 
-        
+        /*------------------------------------------*/
         /*grau de todos os vertices*/
         cout << "DEGREE OF EACH VERTEX" << endl;
         for(int i = 1; i < height+1; i++){  //golfinhos enumerados de 1 a 62
             cout << "degree(" << i << ") = " << dolphins[i].size() << endl;
         }
+        cout << endl;
 
+        /*------------------------------------------*/
         /*cliques maximais*/
         cout << "ALL MAXIMAL CLIQUES" << endl;
         vector<int> r;
         vector<int> p;
         vector<int> x;
         for(int i = 1; i<=height; i++){
-            p.push_back(i);    //inicializando com todos os vertices
+            p.push_back(i);    //inicializando p com todos os vertices
         }
+        Bron_Kerbosch(r, p, x, dolphins);
+        cout << endl;
 
-        bron_kerbosch(r, p, x, dolphins);
-        
-
-
+        /*--------------------------------------------*/
         input_file.close();
 
     }
