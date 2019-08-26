@@ -19,8 +19,17 @@ responsaveis por descrever quantas arestas e vertices o grafo possui
 #include <string>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
+
+
+void bron_kerbosch(vector<int> r, vector<int> p, vector<int> x, vector<vector<int>> graph){
+
+
+
+}
+
 
 int main () {
 
@@ -64,19 +73,38 @@ int main () {
             int a, b;
             stringstream stream(line);
             stream >> a >> b;
-            cout << a << " " << b << endl;
             
             //o grafo nao eh direcionado, entao ha conexao nas duas direcoes
             dolphins[a].push_back(b);
             dolphins[b].push_back(a);
 
             line.clear();
-
+        
         }
+
+        
+        /*grau de todos os vertices*/
+        cout << "DEGREE OF EACH VERTEX" << endl;
+        for(int i = 1; i < height+1; i++){  //golfinhos enumerados de 1 a 62
+            cout << "degree(" << i << ") = " << dolphins[i].size() << endl;
+        }
+
+        /*cliques maximais*/
+        cout << "ALL MAXIMAL CLIQUES" << endl;
+        vector<int> r;
+        vector<int> p;
+        vector<int> x;
+        for(int i = 1; i<=height; i++){
+            p.push_back(i);    //inicializando com todos os vertices
+        }
+
+        bron_kerbosch(r, p, x, dolphins);
+        
+
 
         input_file.close();
 
-    } 
+    }
 
     return 0;
 }
