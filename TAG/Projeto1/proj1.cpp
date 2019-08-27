@@ -37,6 +37,7 @@ vector<int> simple_union(vector<int> a, vector<int> b){
 
     return result;
 }
+
 vector<int> simple_intersection(vector<int> a, vector<int> b){
     sort(a.begin(), a.end());
     sort(b.begin(), b.end());
@@ -50,6 +51,7 @@ vector<int> simple_intersection(vector<int> a, vector<int> b){
 
     return result;
 }
+
 vector<int> simple_difference(vector<int> a, vector<int> b){
     sort(a.begin(), a.end());
     sort(b.begin(), b.end());
@@ -65,17 +67,17 @@ vector<int> simple_difference(vector<int> a, vector<int> b){
 }
 
 
-void Bron_Kerbosch(vector<int> r, vector<int> p, vector<int> x, vector<vector<int>> graph){
+void Bron_Kerbosch(vector<int> r, vector<int> p, vector<int> x, vector< vector<int> > graph){
 
     //se P e X estao vazios
     if(p.empty() && x.empty()){
         cout << "Maximal Clique found: ";
-        for(int i = 0; i < r.size(); i++)
+        for(long unsigned int i = 0; i < r.size(); i++)
             cout << r[i] << " ";
         cout << endl;
     }
     //para cada vertice em P
-    for(int i = 0; i < p.size(); i++){
+    for(long unsigned int i = 0; i < p.size(); i++){
         
         vector<int> temp; // = {v} conjunto que soh possui um vertice
         temp.push_back(p[i]);
@@ -91,14 +93,22 @@ void Bron_Kerbosch(vector<int> r, vector<int> p, vector<int> x, vector<vector<in
 }
 
 
+bool find_in_vector(int x, vector<int> a){
+    for(long unsigned int i = 0; i<a.size(); i++){
+        if(a[i] == x) return true;
+    }
+    return false;
+}
+
+
 int main () {
 
     string file_name;
-    cout << "Enter the  input file name: ";
+    cout << "Enter the input file name: ";
     cin >> file_name;
 
     ifstream input_file;
-    input_file.open(file_name);
+    input_file.open(file_name.c_str());
 
     if(input_file.fail()){
         cout << "Error opening the file / file doesn't exist" << endl;
@@ -126,7 +136,7 @@ int main () {
 
         }
 
-        vector<vector<int>> dolphins(height + 1);
+        vector< vector<int> > dolphins(height + 1);
 
         //depois lemos as conexoes
         while(getline(input_file, line)){   //ate o fim do arquivo
@@ -142,13 +152,15 @@ int main () {
         
         }
 
+
         /*------------------------------------------*/
         /*grau de todos os vertices*/
         cout << "DEGREE OF EACH VERTEX" << endl;
-        for(int i = 1; i < height+1; i++){  //golfinhos enumerados de 1 a 62
+        for(int i = 1; i <= height; i++){  //golfinhos enumerados de 1 a 62
             cout << "degree(" << i << ") = " << dolphins[i].size() << endl;
         }
         cout << endl;
+
 
         /*------------------------------------------*/
         /*cliques maximais*/
@@ -156,16 +168,51 @@ int main () {
         vector<int> r;
         vector<int> p;
         vector<int> x;
-        for(int i = 1; i<=height; i++){
+        for(int i = 1; i <= height; i++){
             p.push_back(i);    //inicializando p com todos os vertices
         }
         Bron_Kerbosch(r, p, x, dolphins);
         cout << endl;
 
+
         /*--------------------------------------------*/
+        /*coeficiente de aglomeracao de todos os vertices*/
+        cout << "CLUSTERING COEFFICIENT" << endl;
+        for(int i = 1; i <= height; i++){  //para cada vertice (v) do grafo
+            cout << "c(" << i << ") = ";
+            int t = 0;
+            
+            bool tab[height][width];
+            for(int ii = 0; ii<height; ii++) for(int jj = 0; jj<width; jj++)
+                tab[ii][jj] = false;
+
+            for(long unsigned int j = 0; j < dolphins[i].size(); j++){   //para cada vertice (a) adjacente a (v)
+                for(long unsigned int k = 0; k < dolphins[i].size(); k++){    //para cada vertice (b) adjacente a (v)
+                    if(!tab[j][k] && j!=k){                             //se um triangulo ainda nao foi encontrado
+                        if(find_in_vector(dolphins[i][j], dolphins[dolphins[i][k]])){    //se a for encontrado dentre os adjacente a b
+                            tab[j][k] = true;                     
+                            tab[k][j] = true;                       //marcamos na tabela para avisar que ja foi encontrado
+                            t++;                                    //um triangulo formado pelos vertices a, b e v
+                        }
+                    }
+                }
+            }
+            
+            int temp = dolphins[i].size();
+            if(temp*(temp-1) != 0){
+                double aa = 2*t;
+                double bb = temp * (temp-1);
+                cout << aa / bb << endl;
+            }
+            else
+                cout << 0 << endl;
+
+        }
+
         input_file.close();
 
     }
 
     return 0;
+
 }
