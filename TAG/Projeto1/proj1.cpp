@@ -14,6 +14,7 @@ O primeiro input nao comentado deve ser composto por tres inteiros
 responsaveis por descrever quantas arestas e vertices o grafo possui
 */
 
+#include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -38,6 +39,7 @@ vector<int> simple_union(vector<int> a, vector<int> b){
     return result;
 }
 
+
 vector<int> simple_intersection(vector<int> a, vector<int> b){
     sort(a.begin(), a.end());
     sort(b.begin(), b.end());
@@ -51,6 +53,7 @@ vector<int> simple_intersection(vector<int> a, vector<int> b){
 
     return result;
 }
+
 
 vector<int> simple_difference(vector<int> a, vector<int> b){
     sort(a.begin(), a.end());
@@ -177,7 +180,8 @@ int main () {
 
         /*--------------------------------------------*/
         /*coeficiente de aglomeracao de todos os vertices*/
-        cout << "CLUSTERING COEFFICIENT" << endl;
+        double global_clustering = 0;
+        cout << "LOCAL CLUSTERING COEFFICIENT" << endl;
         for(int i = 1; i <= height; i++){  //para cada vertice (v) do grafo
             cout << "c(" << i << ") = ";
             int t = 0;
@@ -197,17 +201,25 @@ int main () {
                     }
                 }
             }
-            
             int temp = dolphins[i].size();
-            if(temp*(temp-1) != 0){
+            if(temp*(temp-1)!=0 && 2*t!=0){
                 double aa = 2*t;
                 double bb = temp * (temp-1);
-                cout << aa / bb << endl;
+                printf("%.3lf\n", aa/bb);
+                global_clustering += aa/bb;
             }
             else
                 cout << 0 << endl;
 
         }
+        global_clustering = global_clustering / height;
+
+
+        /*-------------------------------------*/
+        /*coeficiente de aglomeracao global*/
+        cout << "GLOBAL CLUSTERING COEFFICIENT" << endl;
+        cout << "C = " << global_clustering << endl;
+
 
         input_file.close();
 
