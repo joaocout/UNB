@@ -1,100 +1,70 @@
-/*
-ALUNO : JOAO PEDRO ASSUNCAO COUTINHO
-MATRICULA : 18/0019813
-github.com/joaocout
-*/
-
-/*
-O programa pula todos os comentarios (linhas iniciadas com '%')
-independentemente da linha em que estao escritos.
-*/
-
-/*
-O primeiro input nao comentado deve ser composto por tres inteiros
-responsaveis por descrever quantas arestas e vertices o grafo possui
-*/
-
 #include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
 #include <vector>
-#include <algorithm>
+#include <iterator>
+#include <set>
 
 using namespace std;
 
+set<int> simple_intersection (set<int> a, set<int> b){
+    set<int> result;
+    for(int e : a){
+        if(b.count(e))  //se ha um elemento de A em B
+            result.insert(e);   //esse elemento deve ser inserido no resultado
+    }
+    return result;
+}
 
-vector<int> simple_union(vector<int> a, vector<int> b){
-    sort(a.begin(), a.end());
-    sort(b.begin(), b.end());
+set<int> simple_union (set<int> a, set<int> b){
+    set<int> result;
+    for(int e : a)
+        result.insert(e);
+    for(int e : b)
+        result.insert(e);
+    return result;          // resultado eh a uniao dos dois conjuntos
+}
 
-    vector<int>::iterator eit, it;
-    vector<int> temp(a.size()+b.size()), result;
-
-    eit = set_union(a.begin(), a.end(), b.begin(), b.end(), temp.begin());
-    for(it = temp.begin(); it!=eit; it++)
-        result.push_back(*it);
-
+set<int> simple_difference (set<int> a, set<int> b){        //a \ b
+    set<int> result;
+    for(int e : a){
+        if(!b.count(e))         //pegamos todos de A que nao estado em B
+            result.insert(e);
+    }
     return result;
 }
 
 
-vector<int> simple_intersection(vector<int> a, vector<int> b){
-    sort(a.begin(), a.end());
-    sort(b.begin(), b.end());
+void Bron_Kerbosch(set<int> R, set<int> P, set<int> X, vector<vector<int>> graph){
 
-    vector<int>::iterator eit, it;
-    vector<int> temp(a.size()), result;
-
-    eit = set_intersection(a.begin(), a.end(), b.begin(), b.end(), temp.begin());
-    for(it = temp.begin(); it!=eit; it++)
-        result.push_back(*it);
-
-    return result;
-}
-
-
-vector<int> simple_difference(vector<int> a, vector<int> b){
-    sort(a.begin(), a.end());
-    sort(b.begin(), b.end());
-
-    vector<int>::iterator eit, it;
-    vector<int> temp(a.size()), result;
-
-    eit = set_difference(a.begin(), a.end(), b.begin(), b.end(), temp.begin());
-    for(it = temp.begin(); it!=eit; it++)
-        result.push_back(*it);
-
-    return result;
-}
-
-
-void Bron_Kerbosch(vector<int> r, vector<int> p, vector<int> x, vector< vector<int> > graph){
-
-    //se P e X estao vazios
-    if(p.empty() && x.empty()){
+    if(P.empty() && X.empty()){
         cout << "Maximal Clique found: ";
-        for(long unsigned int i = 0; i < r.size(); i++)
-            cout << r[i] << " ";
+        for(int e : R)
+            cout << e << " ";
         cout << endl;
     }
-    //para cada vertice em P
-    for(long unsigned int i = 0; i < p.size(); i++){
+
+    auto it = P.begin();
+    while(!P.empty()){
+
+        int v = *it;
+        set<int> temp;      //temp = {v}
+        temp.insert(v);
         
-        vector<int> temp; // = {v} conjunto que soh possui um vertice
-        temp.push_back(p[i]);
+        set<int> Nv;        //Nv = N(v)
+        for(int e : graph[v])
+            Nv.insert(e);   
+        
+        Bron_Kerbosch(simple_union(R, temp), simple_intersection(P, Nv), simple_intersection(X, Nv), graph);
+        P = simple_difference(P, temp);
+        X = simple_union(X, temp);
 
-        Bron_Kerbosch(simple_union(r, temp), simple_intersection(p, graph[p[i]]), 
-        simple_intersection(x, graph[p[i]]), graph);
+        if(!P.empty()) it = P.begin();
 
-        p = simple_difference(p, temp);
-        x = simple_union(x, temp);
-    
     }
-
 }
-
 
 bool find_in_vector(int x, vector<int> a){
     for(long unsigned int i = 0; i<a.size(); i++){
@@ -139,8 +109,7 @@ int main () {
 
         }
 
-        vector< vector<int> > dolphins(height + 1);
-
+        vector<vector<int>> dolphins(height+1);
         //depois lemos as conexoes
         while(getline(input_file, line)){   //ate o fim do arquivo
             int a, b;
@@ -155,7 +124,6 @@ int main () {
         
         }
 
-
         /*------------------------------------------*/
         /*grau de todos os vertices*/
         cout << "DEGREE OF EACH VERTEX" << endl;
@@ -164,19 +132,18 @@ int main () {
         }
         cout << endl;
 
-
         /*------------------------------------------*/
         /*cliques maximais*/
         cout << "ALL MAXIMAL CLIQUES" << endl;
-        vector<int> r;
-        vector<int> p;
-        vector<int> x;
+        set<int> r;
+        set<int> p;
+        set<int> x;
+
         for(int i = 1; i <= height; i++){
-            p.push_back(i);    //inicializando p com todos os vertices
+            p.insert(i);    //inicializando p com todos os vertices
         }
         Bron_Kerbosch(r, p, x, dolphins);
         cout << endl;
-
 
         /*--------------------------------------------*/
         /*coeficiente de aglomeracao de todos os vertices*/
