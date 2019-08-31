@@ -1,40 +1,21 @@
+/*
+Nome : JOAO PEDRO ASSUNCAO COUTINHO
+Matricula : 18/0019813
+
+Este eh o arquivo principal do programa, possui a funcao main e a funcao Bron_Kerbosch.
+*/
+
 #include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <vector>
 #include <iterator>
+#include <vector>
 #include <set>
+#include "functions.hpp"
 
 using namespace std;
-
-set<int> simple_intersection (set<int> a, set<int> b){
-    set<int> result;
-    for(int e : a){
-        if(b.count(e))  //se ha um elemento de A em B
-            result.insert(e);   //esse elemento deve ser inserido no resultado
-    }
-    return result;
-}
-
-set<int> simple_union (set<int> a, set<int> b){
-    set<int> result;
-    for(int e : a)
-        result.insert(e);
-    for(int e : b)
-        result.insert(e);
-    return result;          // resultado eh a uniao dos dois conjuntos
-}
-
-set<int> simple_difference (set<int> a, set<int> b){        //a \ b
-    set<int> result;
-    for(int e : a){
-        if(!b.count(e))         //pegamos todos de A que nao estado em B
-            result.insert(e);
-    }
-    return result;
-}
 
 
 void Bron_Kerbosch(set<int> R, set<int> P, set<int> X, vector<vector<int>> graph){
@@ -64,13 +45,6 @@ void Bron_Kerbosch(set<int> R, set<int> P, set<int> X, vector<vector<int>> graph
         if(!P.empty()) it = P.begin();
 
     }
-}
-
-bool find_in_vector(int x, vector<int> a){
-    for(long unsigned int i = 0; i<a.size(); i++){
-        if(a[i] == x) return true;
-    }
-    return false;
 }
 
 
@@ -123,6 +97,7 @@ int main () {
             line.clear();
         
         }
+        cout << endl;
 
         /*------------------------------------------*/
         /*grau de todos os vertices*/
@@ -179,12 +154,13 @@ int main () {
                 cout << 0 << endl;
 
         }
+        cout << endl;
         global_clustering = global_clustering / height;
 
 
         /*-------------------------------------*/
         /*coeficiente de aglomeracao global*/
-        cout << "GLOBAL CLUSTERING COEFFICIENT" << endl;
+        cout << "AVERAGE CLUSTERING COEFFICIENT" << endl;
         cout << "C = " << global_clustering << endl;
 
 
