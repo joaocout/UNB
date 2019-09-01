@@ -21,7 +21,7 @@ using namespace std;
 void Bron_Kerbosch(set<int> R, set<int> P, set<int> X, vector<vector<int>> graph){
 
     if(P.empty() && X.empty()){
-        cout << "Maximal Clique found: ";
+        cout << "Maximal Clique found between " << R.size() << " vertices: ";
         for(int e : R)
             cout << e << " ";
         cout << endl;
