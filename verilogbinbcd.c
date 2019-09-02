@@ -1,3 +1,5 @@
+/*recebe um range de inteiros e printa o codigo em verilog que converte esses inteiros(em binario) para formato bcd, de forma que possam ser usados para exibicao via display de sete segmentos*/
+
 #include <stdio.h>
 #include <string.h>
 
