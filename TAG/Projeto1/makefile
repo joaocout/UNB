@@ -1,12 +1,8 @@
 all: main
 	./main
 
-main: functions.o
-	g++ -Wall -o main main.cpp functions.o
+main:
+	g++ -Wall -o main main.cpp functions.cpp
 
-functions.o:
-	g++ -Wall -c functions.cpp
-
-rm:
-	rm functions.o
-	rm main
+clear:
+	rm  main
